@@ -1,24 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Switch} from "react-router-dom";
+
+import './App.scss';
+import GreenRoom from './pages/GreenRoom/GreenRoom';
+import SignInForm from './containers/SignInForm/SignInForm';
 
 function App() {
+  let routes = (
+    <Switch>
+      <Route path="/" component={GreenRoom} />
+      <Route path="/green-room" component={GreenRoom} />
+      <Route path="/yellow-room" component={GreenRoom} />
+      <Route path="/blue-room" component={GreenRoom} />
+      <Route path="/sign-in" component={SignInForm} />
+      <Route path="/sign-up" component={GreenRoom} />
+    </Switch>
+  )
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {routes}
     </div>
   );
 }
