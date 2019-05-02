@@ -3,8 +3,7 @@ import { Typography } from "@material-ui/core";
 
 const Header = () => (
     <div className="header">
-        <Typography variant="h1">BOOKING-TEST</Typography>
-        
+        <Typography variant="subtitle1">BOOKING-TEST</Typography>        
     </div>
 );
 
