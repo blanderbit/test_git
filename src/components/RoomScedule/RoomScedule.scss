@@ -1,0 +1,12 @@
+﻿.roomscedule{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+
+    .picker-container {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+}

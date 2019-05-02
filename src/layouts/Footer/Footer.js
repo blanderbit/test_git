@@ -1,10 +1,10 @@
 import React from 'react';
-import {Button} from '@material-ui/core'
+import { Divider, Typography } from '@material-ui/core'
 
 const Footer = () => (
     <div className="footer">
-        <Button href='/sign-in'>Sign In</Button>
-        <Button href='/'>Sign Up</Button>
+        <Divider />
+        <Typography align='right'>Made by Yaroslav Antonchyk</Typography>
     </div>
 );
 

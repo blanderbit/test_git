@@ -1,0 +1,15 @@
+﻿.cell{
+    display: flex;
+    flex-direction: row;
+
+    .hours{
+        flex: 1;
+        text-align: center;
+        border: 1px solid; 
+    }
+
+    .mark{
+        flex: 1;
+        border: 1px solid; 
+    }
+}
