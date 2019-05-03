@@ -1,0 +1,17 @@
+﻿.room-listitem{
+
+    .card {
+        margin: 20px
+    }
+
+    .media {
+        height: 140px,
+    }
+}
+
+@media (min-width: 768px) {
+    .room-listitem{        
+        width: 50%;
+    
+    }
+}

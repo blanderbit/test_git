@@ -1,33 +1,19 @@
 @import '../../styles/index.scss';
 
 .page{
-    background-color: #aaa;
+    background-color: $gray;
     min-height: 100vh;
-    padding: 20px;
     display: flex;
     flex-direction: column;
     max-width: 1200px;
     margin: auto;
 
     .page-content{
-        margin-top: 20px;
-        margin-bottom: 20px;
+        flex: 1;
         display: flex;
-        flex-grow: 1;
-        flex-direction: column;
+        justify-content: center;
+        align-content: center;
     }
+
 }
 
-@media (min-width: 768px) {
-    .page{
-        text-align: center;
-        background-color: #aaa;
-    
-        .page-content{
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            flex-wrap: wrap
-        }
-    }
-}

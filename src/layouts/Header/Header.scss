@@ -1,16 +1,21 @@
+@import '../../styles/index.scss';
+
 .header {
     display: flex;
     padding: 1em;
     justify-content: space-between;
     align-items: center;
+    background-color: $black;
+    
 
     h1 {
         font-size: 2em;
+        color: $white;
     }
 
     .controll{
         display: flex;
-        align-items: center
+        align-items: center;
     }
 }
 

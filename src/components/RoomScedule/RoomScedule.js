@@ -4,7 +4,7 @@ import moment from 'moment'
 
 import './RoomScedule.scss'
 import DayScedule from '../DayScedule/DayScedule';
-import { withStyles, TextField, Button, Typography } from '@material-ui/core';
+import { withStyles, TextField, Button, Typography, Dialog, DialogTitle } from '@material-ui/core';
 import Wrapper from '../../layouts/Wrapper';
 // import { TimePicker, DatePicker } from 'material-ui-pickers';
 
@@ -19,14 +19,30 @@ const styles = theme => ({
         marginRight: theme.spacing.unit,
         width: 200,
     },
+    margin: {
+        margin: theme.spacing.unit,
+    }
 });
 
 class RoomScedule extends React.Component {
     state = {
         date: moment().format('YYYY-MM-DD'),
-        start: '09:00',
-        end: '09:00'
+        start: '10:00',
+        end: '11:00',
+        open: false,
+        isBooked: false
     }
+
+    handleOpen = () => {
+        this.setState({
+            open: true,
+            isBooked: false
+        });
+    };
+
+    handleClose = () => {
+        this.setState({ open: false });
+    };
 
     onChange = (e) => {
         const { name, value } = e.target
@@ -36,20 +52,52 @@ class RoomScedule extends React.Component {
         console.log(this.state.date);
     }
 
+    checkState = () => {
+        const data = JSON.parse(localStorage.getItem("data")) || { items: [] };
+        const { date, start } = this.state;
+
+        const isBooked = data.items.some((event) => {
+            return moment(date + 'T' + start + ':01').isBetween(event.date + 'T' + event.start, event.date + 'T' + event.end, 'second') === true;
+        })
+
+        this.setState({
+            isBooked
+        })
+    }
+
     onSubmit = (e) => {
+        // const { isBooked } = this.state;
         e.preventDefault();
 
-        let data = JSON.parse(localStorage.getItem("data")) || { items: [] };
-        localStorage.removeItem("data");
-        data.items.push(this.state);
-        localStorage.setItem("data", JSON.stringify(data));
-        console.log(data);
+        // this.checkState();
+
+        const data = JSON.parse(localStorage.getItem("data")) || { items: [] };
+        const { date, start } = this.state;
+
+        const isBooked = data.items.some((event) => {
+            return moment(date + 'T' + start + ':01').isBetween(event.date + 'T' + event.start, event.date + 'T' + event.end, 'second') === true;
+        })
+
+        this.setState({
+            isBooked
+        })
+
+        console.log(isBooked);
+
+        if (!isBooked) {
+            let data = JSON.parse(localStorage.getItem("data")) || { items: [] };
+            localStorage.removeItem("data");
+            data.items.push(this.state);
+            localStorage.setItem("data", JSON.stringify(data));
+        } else {
+            this.handleOpen();
+        }
 
 
         this.setState({
             date: moment().format('YYYY-MM-DD'),
-            start: '09:00',
-            end: '09:00'
+            start: '10:00',
+            end: '11:00'
         })
     }
 
@@ -57,7 +105,7 @@ class RoomScedule extends React.Component {
         const { classes } = this.props;
         const { date, start, end } = this.state;
         const email = localStorage.getItem('email');
-        
+
         return (
             <div>
                 {/* <Calendar
@@ -76,6 +124,7 @@ class RoomScedule extends React.Component {
                             InputLabelProps={{
                                 shrink: true,
                             }}
+
                             onChange={this.onChange}
                         />
                         {email && (
@@ -84,24 +133,28 @@ class RoomScedule extends React.Component {
                                     id="time"
                                     label="Start event"
                                     type="time"
+
                                     name="start"
                                     value={start}
                                     className={classes.textField}
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
+                                    inputProps={{ min: "10:00", max: "18:00", step: "1" }}
                                     onChange={this.onChange}
                                 />
                                 <TextField
                                     id="time"
                                     label="End event"
                                     type="time"
+
                                     name='end'
                                     value={end}
                                     className={classes.textField}
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
+                                    inputProps={{ min: start, max: "18:00", step: "1" }}
                                     onChange={this.onChange}
 
                                 />
@@ -109,12 +162,36 @@ class RoomScedule extends React.Component {
                         }
                     </div>
 
-                    <DayScedule />
+                    <DayScedule currentDate={this.state} />
 
                     {email
-                        ? <Button type="submit" onClick={this.onSubmit}>Book the room</Button>
-                        : <Typography><Button href='/sign-in'>Login</Button> for book the room</Typography>}
+                        ? <Button
+                            type="submit"
+                            className={classes.margin}
+                            color='secondary'
+                            variant='contained'
+                            onClick={this.onSubmit}>
+                            Book the room
+                            </Button>
+                        : <Typography>
+                            <Button
+                                href='/sign-in'
+                                variant='text'
+                                className={classes.margin}
+                                color='secondary'>
+                                Login
+                            </Button>
+                            for book the room
+                        </Typography>
+                    }
                 </form>
+
+                <Dialog
+                    open={this.state.open}
+                    onClose={this.handleClose}
+                    aria-labelledby="simple-dialog-title" >
+                    <DialogTitle id="simple-dialog-title">For this time the room is booked</DialogTitle>
+                </Dialog>
             </div>
         )
     }

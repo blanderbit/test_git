@@ -33,8 +33,8 @@ class Header extends React.Component {
                 <NavLink exact to='/'><Typography variant="h1">BOOKING-TEST</Typography></NavLink>
                 <div className="controll">
                     {email
-                        ? <Button onClick={this.handleOpen}><Typography>{email}</Typography><AccountCircle /></Button>
-                        : <Button href='/sign-in' >Log In</Button>}
+                        ? <Button onClick={this.handleOpen}><Typography color='secondary'>{email}</Typography><AccountCircle color='secondary' /></Button>
+                        : <Button href='/sign-in' variant='contained' color='secondary'>Log In</Button>}
                 </div>
                 <Snackbar
                     anchorOrigin={{ vertical: 'top', horizontal: "right" }}
@@ -42,7 +42,7 @@ class Header extends React.Component {
                     onClose={this.handleClose}
                     message={
                         <Button
-                            href='/sign-in'
+                            href='/'
                             onClick={this.handleLogOut}
                             variant='contained'
                             color='secondary'>
