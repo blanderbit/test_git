@@ -5,7 +5,9 @@ import './DaySceduleCell.scss';
 import { Typography } from '@material-ui/core';
 
 const DaySceduleCell = (props) => {
-  const { items } = JSON.parse(localStorage.getItem("data")) || { items: [] };
+  const currentRoom = sessionStorage.getItem("currentRoom")
+
+  const { items } = JSON.parse(localStorage.getItem("data" + currentRoom)) || { items: [] };
 
   const { hours, currentDate } = props
 

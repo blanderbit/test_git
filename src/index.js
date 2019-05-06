@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from "react-router-dom";
+// import { browserHistory } from "react-router";
 
 import './index.scss';
 import App from './App';
@@ -8,10 +9,10 @@ import * as serviceWorker from './serviceWorker';
 
 
 const app = (
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-  );
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);
 
 ReactDOM.render(app, document.getElementById('root'));
 

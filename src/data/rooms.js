@@ -19,6 +19,16 @@
             img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6pCbrCEE95Wjx2hHuTi_G8neBVVdinnrkK9GqF8drnW9LnNOu6g',
             heading: 'Conference Room, iFLY Manchester',
             text: 'This functional space can accommodate from 60 to 200 people depending on its configuration. It has WIFI connection, a video projector, a paperboard, a projection screen, notepads, markers, pencils and mineral water.'
+        },
+        {
+            img: 'https://www.bird-office.com/media/cache/thumbPlaceImage/prod/place/salle-de-reunion-a-chambery-de-100-m2-salle-st-bernard-garnier-1466071983.jpeg',
+            heading: 'Book conference room for 100 people in Chambéry',
+            text: 'We offer you a bright and spacious conference room that can accommodate up to 100 people. The presentation room has several layouts, and can also host a meeting or training capable of accomodating up to 70 people. '
+        },
+        {
+            img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6pCbrCEE95Wjx2hHuTi_G8neBVVdinnrkK9GqF8drnW9LnNOu6g',
+            heading: 'Conference Room, iFLY Manchester',
+            text: 'This functional space can accommodate from 60 to 200 people depending on its configuration. It has WIFI connection, a video projector, a paperboard, a projection screen, notepads, markers, pencils and mineral water.'
         }
     ]
 }

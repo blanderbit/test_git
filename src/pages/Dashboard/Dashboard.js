@@ -18,9 +18,11 @@ class Dashboard extends React.Component {
       <Page >
         <div className="dashboard">
           {
-            roomItems.map((room, idx) => (
-              <Room1ListItem room={room} key={idx} />
-            ))
+            roomItems.map((room, idx) => {
+              return (
+                <Room1ListItem room={room} key={idx} roomNumber={idx} />
+              )
+            })
           }
         </div>
       </Page>

@@ -8,7 +8,6 @@ import { withStyles, TextField, Button, Typography, Dialog, DialogTitle } from '
 import Wrapper from '../../layouts/Wrapper';
 // import { TimePicker, DatePicker } from 'material-ui-pickers';
 
-
 const styles = theme => ({
     container: {
         display: 'flex',
@@ -52,43 +51,47 @@ class RoomScedule extends React.Component {
         console.log(this.state.date);
     }
 
-    checkState = () => {
-        const data = JSON.parse(localStorage.getItem("data")) || { items: [] };
-        const { date, start } = this.state;
+    // checkState = () => {
+    //     const data = JSON.parse(localStorage.getItem("data")) || { items: [] };
+    //     const { date, start } = this.state;
 
-        const isBooked = data.items.some((event) => {
-            return moment(date + 'T' + start + ':01').isBetween(event.date + 'T' + event.start, event.date + 'T' + event.end, 'second') === true;
-        })
+    //     const isBooked = data.items.some((event) => {
+    //         return moment(date + 'T' + start + ':01').isBetween(event.date + 'T' + event.start, event.date + 'T' + event.end, 'second') === true;
+    //     })
 
-        this.setState({
-            isBooked
-        })
-    }
+    //     this.setState({
+    //         isBooked
+    //     })
+    // }
 
     onSubmit = (e) => {
         // const { isBooked } = this.state;
+        const currentRoom = sessionStorage.getItem("currentRoom");
+
         e.preventDefault();
 
         // this.checkState();
 
-        const data = JSON.parse(localStorage.getItem("data")) || { items: [] };
+        const data = JSON.parse(localStorage.getItem("data" + currentRoom)) || { items: [] };
         const { date, start } = this.state;
 
         const isBooked = data.items.some((event) => {
             return moment(date + 'T' + start + ':01').isBetween(event.date + 'T' + event.start, event.date + 'T' + event.end, 'second') === true;
         })
 
-        this.setState({
-            isBooked
-        })
+        // this.setState({
+        //     isBooked
+        // })
 
         console.log(isBooked);
 
         if (!isBooked) {
-            let data = JSON.parse(localStorage.getItem("data")) || { items: [] };
-            localStorage.removeItem("data");
+            console.log(currentRoom);
+
+            let data = JSON.parse(localStorage.getItem("data" + currentRoom)) || { items: [] };
+            localStorage.removeItem("data" + currentRoom);
             data.items.push(this.state);
-            localStorage.setItem("data", JSON.stringify(data));
+            localStorage.setItem("data" + currentRoom, JSON.stringify(data));
         } else {
             this.handleOpen();
         }
@@ -121,6 +124,7 @@ class RoomScedule extends React.Component {
                             name='date'
                             value={date}
                             className={classes.textField}
+                            inputProps={{ min: date }}
                             InputLabelProps={{
                                 shrink: true,
                             }}

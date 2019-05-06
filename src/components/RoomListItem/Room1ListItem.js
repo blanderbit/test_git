@@ -10,37 +10,55 @@ import Typography from '@material-ui/core/Typography';
 import './Room1ListItem.scss'
 
 
-const Room1ListItem = (props) => {
-    const { img, heading, text } = props.room;
-    console.log(img);
+class Room1ListItem extends React.Component {
 
-    return (
-        <div className="room-listitem">
-            <Card className='card'>
-                <CardActionArea>
-                    <CardMedia
-                        className='media'
-                        image={img}
-                        title={heading}
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            {heading}
-                        </Typography>
-                        <Typography component="p">
-                            {text}
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
-                <CardActions>
-                    <Button size="small" color="primary" href='/room1'>
-                        Learn More
-                    </Button>
-                </CardActions>
-            </Card>
-        </div>
+    clickHandler = () => {
+        const { roomNumber } = this.props;
+        console.log(roomNumber);
 
-    );
+        // sessionStorage.setItem("currentRoom", roomNumber)
+
+        localStorage.setItem("currentRoom", roomNumber)
+    }
+
+    render() {
+        const { room: { img, heading, text } } = this.props;
+        console.log(this.props);
+
+        return (
+            <div className="room-listitem">
+                <Card className='card'>
+                    <CardActionArea>
+                        <CardMedia
+                            className='media'
+                            image={img}
+                            title={heading}
+                        />
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="h2">
+                                {heading}
+                            </Typography>
+                            <Typography component="p">
+                                {text}
+                            </Typography>
+                        </CardContent>
+                    </CardActionArea>
+                    <CardActions>
+                        <Button
+                            size="small"
+                            onClick={this.clickHandler}
+                            color="primary"
+                            href='/room1'
+                        >
+                            Learn More
+                        </Button>
+                    </CardActions>
+                </Card>
+            </div>
+
+        );
+    }
+
 }
 
 export default Room1ListItem;
