@@ -1,5 +1,7 @@
 ﻿import React from 'react';
 import moment from 'moment';
+import { connect } from "react-redux";
+
 
 import './DaySceduleCell.scss';
 import { Typography } from '@material-ui/core';
@@ -8,6 +10,8 @@ const DaySceduleCell = (props) => {
   const currentRoom = sessionStorage.getItem("currentRoom")
 
   const { items } = JSON.parse(localStorage.getItem("data" + currentRoom)) || { items: [] };
+
+  console.log(props.tickets);
 
   const { hours, currentDate } = props
 
@@ -34,4 +38,14 @@ const DaySceduleCell = (props) => {
   );
 }
 
-export default DaySceduleCell;
+const mapStateToProps = state => {
+  return {
+    tickets: state.tickets,
+  };
+};
+
+
+export default connect(
+  mapStateToProps,
+)(DaySceduleCell);
+

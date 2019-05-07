@@ -1,11 +1,13 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
+
 
 import { Typography, Button, Snackbar } from "@material-ui/core";
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
-
 import './Header.scss'
+import { logout } from '../../redux/actions/auth';
 
 class Header extends React.Component {
   state = {
@@ -20,23 +22,24 @@ class Header extends React.Component {
     this.setState({ open: true });
   };
 
-  handleLogOut = () => {
-    localStorage.removeItem("token");
-    this.setState()
-  }
+  // handleLogOut = () => {
+  //   localStorage.removeItem("token");
+  //   this.setState()
+  // }
 
   render() {
-    const token = localStorage.getItem('token');
-    const useId = localStorage.getItem('useId');
+    const token = localStorage.getItem("token");
+    const email = localStorage.getItem("email");
 
     return (
       <div className="header">
         <NavLink exact to='/'><Typography variant="h1">BOOKING-TEST</Typography></NavLink>
+
         <div className="controll">
-          {token
-            ? <Button onClick={this.handleOpen}><Typography color='secondary'>email</Typography><AccountCircle color='secondary' /></Button>
-            : <Button href='/sign-up' variant='contained' color='secondary'>Sign Up</Button>
-          }
+          <Button onClick={this.handleOpen}>
+            {token && <Typography color='secondary'>{email}</Typography>}
+            <AccountCircle color='secondary' />
+          </Button>
         </div>
 
         <Snackbar
@@ -46,7 +49,7 @@ class Header extends React.Component {
           message={
             <Button
               href='/'
-              onClick={this.handleLogOut}
+              onClick={this.props.onLogOut}
               variant='contained'
               color='secondary'
             >
@@ -56,7 +59,23 @@ class Header extends React.Component {
       </div>
     );
   }
-
 }
 
-export default Header;
+const mapStateToProps = state => {
+
+  return {
+    token: state.auth.token
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogOut: () => dispatch(logout()),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);
+

@@ -12,52 +12,50 @@ import './Room1ListItem.scss'
 
 class Room1ListItem extends React.Component {
 
-    clickHandler = () => {
-        const { roomNumber } = this.props;
-        console.log(roomNumber);
+  clickHandler = () => {
+    const { roomNumber } = this.props;
 
-        sessionStorage.setItem("currentRoom", roomNumber)
+    sessionStorage.setItem("currentRoom", roomNumber)
 
-        localStorage.setItem("currentRoom", roomNumber)
-    }
+    localStorage.setItem("currentRoom", roomNumber)
+  }
 
-    render() {
-        const { room: { img, heading, text } } = this.props;
-        console.log(this.props);
+  render() {
+    const { hall: { title, description } } = this.props;
 
-        return (
-            <div className="room-listitem">
-                <Card className='card'>
-                    <CardActionArea>
-                        <CardMedia
-                            className='media'
-                            image={img}
-                            title={heading}
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                {heading}
-                            </Typography>
-                            <Typography component="p">
-                                {text}
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                    <CardActions>
-                        <Button
-                            size="small"
-                            onClick={this.clickHandler}
-                            color="primary"
-                            href='/room1'
-                        >
-                            Learn More
+    return (
+      <div className="room-listitem">
+        <Card className='card'>
+          <CardActionArea>
+            <CardMedia
+              className='media'
+              image='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6pCbrCEE95Wjx2hHuTi_G8neBVVdinnrkK9GqF8drnW9LnNOu6g'
+              title={title}
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                {title}
+              </Typography>
+              <Typography component="p">
+                {description}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <Button
+              size="small"
+              onClick={this.clickHandler}
+              color="primary"
+              href='/room1'
+            >
+              Learn More
                         </Button>
-                    </CardActions>
-                </Card>
-            </div>
+          </CardActions>
+        </Card>
+      </div>
 
-        );
-    }
+    );
+  }
 
 }
 

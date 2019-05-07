@@ -35,6 +35,7 @@ class MyForm extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     this.props.userRequest(this.state);
+
     this.setState({
       email: '',
       password: '',
@@ -44,7 +45,7 @@ class MyForm extends React.Component {
   render() {
     const { classes, formType } = this.props;
     const { email, password } = this.state;
-    const userId = localStorage.getItem("userId");
+    // const userId = localStorage.getItem("userId");
 
     return (
       <Page>
@@ -78,6 +79,11 @@ class MyForm extends React.Component {
                 {formType}
               </Button>
             </form>
+
+            <div className={classes.margin}>
+              {this.props.children}
+            </div>
+
           </Paper>
         </div>
       </Page>

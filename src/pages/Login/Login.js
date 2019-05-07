@@ -1,29 +1,24 @@
 ﻿import React from 'react';
 import { Redirect } from "react-router-dom";
-import axios from "axios";
-
+import { connect } from "react-redux";
 
 import MyForm from '../../components/MyForm/MyForm';
+import { signIn } from '../../redux/actions/auth';
 
 
 class Login extends React.Component {
 
   handleRequest = (user) => {
-    // const { email, password } = user;
+    const { email } = user;
+    localStorage.setItem("email", email);
 
+    this.props.onSubmit(user);
     console.log(user);
-    axios
-      .post('http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/signIn', user)
-      .then(res => {
-        console.log(res);
 
-        const { token } = res.data;
-        localStorage.setItem("token", token)
-      })
   }
 
   render() {
-    if (localStorage.getItem("token")) {
+    if (this.props.isAuthenticated) {
       return (
         <Redirect exact to='/' />
       )
@@ -33,7 +28,22 @@ class Login extends React.Component {
       <MyForm userRequest={this.handleRequest} formType="Login" />
     )
   }
-
 }
 
-export default Login;
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.token !== null,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSubmit: (user) => dispatch(signIn(user)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);
+

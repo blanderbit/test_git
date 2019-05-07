@@ -3,15 +3,36 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from "react-router-dom";
 // import { browserHistory } from "react-router";
 
+
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware, combineReducers } from "redux";
+import thunk from "redux-thunk";
+
 import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import authReducer from "./redux/reducers/auth";
+import roomReducer from "./redux/reducers/halls";
+import ticketsReducer from "./redux/reducers/tickets";
 
+
+const rootReducer = combineReducers({
+  auth: authReducer,
+  halls: roomReducer,
+  tickets: ticketsReducer
+});
+
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunk)
+);
 
 const app = (
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
 );
 
 ReactDOM.render(app, document.getElementById('root'));

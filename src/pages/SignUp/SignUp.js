@@ -1,45 +1,65 @@
 ﻿import React from 'react';
-import axios from "axios";
-import { Redirect } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
 
+import { Typography, Button } from '@material-ui/core';
 
 
 import MyForm from '../../components/MyForm/MyForm';
-import Wrapper from '../../layouts/Wrapper'
-import { Typography } from '@material-ui/core';
+import { signUp } from '../../redux/actions/auth';
 
 class SignUp extends React.Component {
 
-    handleRequest = (user) => {
-        // const { email, password } = user;
+  handleRequest = (user) => {
 
-        console.log(user);
-        axios
-            .post('http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/signUp', user)
-            .then(res => {
-                console.log(res);
+    this.props.onSubmit(user);
+    console.log(user);
 
-                const { userId, email } = res.data;
-                localStorage.setItem("userId", userId);
-                localStorage.setItem("email", email);
-            })
+  }
+
+  render() {
+    if (this.props.isSignedUp) {
+      return (
+        <Typography align='center' variant='h3'>
+          Account created please
+          <Button
+            href='/sign-in'
+            variant='text'
+            color='secondary'>
+            Login
+          </Button>
+        </Typography>
+      )
     }
 
-    render() {
-        if (localStorage.getItem("email")) {
-            return (
-                <Redirect exact to='/' />
-            )
-        }
-
-        return (
-            <Wrapper >
-                <MyForm userRequest={this.handleRequest} formType="Sign Up" />
-                <Typography>Already have account? <NavLink to="/sign-in">Login</NavLink></Typography>
-            </Wrapper>
-        )
-    }
+    return (
+      <MyForm userRequest={this.handleRequest} formType="Sign Up">
+        <Typography align='center'>
+          Have an account?
+          <Button
+            href='/sign-in'
+            variant='text'
+            color='secondary'>
+            Login
+          </Button>
+        </Typography>
+      </MyForm>
+    )
+  }
 }
 
-export default SignUp;
+const mapStateToProps = state => {
+  return {
+    isSignedUp: state.auth.userId !== null,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSubmit: ({ email, password }) => dispatch(signUp(email, password)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignUp);

@@ -1,6 +1,9 @@
 ﻿@import '../../styles/index.scss';
 
 .footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background-color: $black;
     color: $white;
     padding: 20px;
