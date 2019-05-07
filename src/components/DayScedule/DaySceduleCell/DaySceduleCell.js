@@ -15,7 +15,7 @@ const DaySceduleCell = (props) => {
 
   return (
     <div className="cell">
-      <div className="hours">{hours}:00-{hours + 1}:00</div>
+      <div className="hours">{hours}:00- {hours + 1}:00</div>
 
       <div className="mark ">
         {

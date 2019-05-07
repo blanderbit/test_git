@@ -1,95 +1,39 @@
 ﻿import React from 'react';
 import { Redirect } from "react-router-dom";
+import axios from "axios";
 
-import { Paper, TextField, withStyles, Button } from '@material-ui/core';
 
-import Page from '../../layouts/Page/Page';
+import MyForm from '../../components/MyForm/MyForm';
 
-const styles = () => ({
-    login: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    margin: {
-        margin: 20
-    },
-    form: {
-        height: 260,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-})
 
 class Login extends React.Component {
-    state = {
-        email: '',
-        password: '',
+
+  handleRequest = (user) => {
+    // const { email, password } = user;
+
+    console.log(user);
+    axios
+      .post('http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/signIn', user)
+      .then(res => {
+        console.log(res);
+
+        const { token } = res.data;
+        localStorage.setItem("token", token)
+      })
+  }
+
+  render() {
+    if (localStorage.getItem("token")) {
+      return (
+        <Redirect exact to='/' />
+      )
     }
 
-    handleChange = name => event => {
-        this.setState({ [name]: event.target.value });
-    };
-
-    handleSubmit = event => {
-        event.preventDefault();
-        localStorage.setItem("email", this.state.email)
-        this.setState({
-            email: '',
-            password: '',
-        });
-    }
-
-    render() {
-        const { classes } = this.props;
-        const { email, password } = this.state;
-
-        if (localStorage.getItem("email")) {
-            return (
-                <Redirect exact to='/' />
-            )
-        }
-
-        return (
-            <Page>
-                <div className={classes.login}>
-                    <Paper >
-                        <form onSubmit={this.handleSubmit} className={classes.form}>
-                            <TextField
-                                className={classes.margin}
-                                name='email'
-                                placeholder='Email'
-                                value={email}
-                                onChange={this.handleChange('email')} />
-                            <br />
-
-                            <TextField
-                                className={classes.margin}
-                                name='password'
-                                type='password'
-                                placeholder='Password'
-                                value={password}
-                                onChange={this.handleChange('password')} />
-                            <br />
-
-                            <Button
-                                variant='contained'
-                                color='secondary'
-                                type='submit'
-                                className={classes.button}
-                                disabled={!(email && password)}
-                            >
-                                LogIn
-                            </Button>
-                        </form>
-                    </Paper>
-                </div>
-            </Page>
-        );
-    }
+    return (
+      <MyForm userRequest={this.handleRequest} formType="Login" />
+    )
+  }
 
 }
 
-export default withStyles(styles)(Login);
+export default Login;

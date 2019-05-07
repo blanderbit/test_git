@@ -25,7 +25,7 @@ const styles = theme => ({
 const Room1 = (props) => {
     const { classes } = props;
     const { roomItems } = rooms;
-    const currentRoom = + localStorage.getItem("currentRoom") || 2;
+    const currentRoom = + localStorage.getItem("currentRoom") || 0;
     console.log(currentRoom);
 
 

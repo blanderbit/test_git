@@ -29,7 +29,6 @@ class RoomScedule extends React.Component {
         start: '10:00',
         end: '11:00',
         open: false,
-        isBooked: false
     }
 
     handleOpen = () => {
@@ -51,26 +50,11 @@ class RoomScedule extends React.Component {
         console.log(this.state.date);
     }
 
-    // checkState = () => {
-    //     const data = JSON.parse(localStorage.getItem("data")) || { items: [] };
-    //     const { date, start } = this.state;
-
-    //     const isBooked = data.items.some((event) => {
-    //         return moment(date + 'T' + start + ':01').isBetween(event.date + 'T' + event.start, event.date + 'T' + event.end, 'second') === true;
-    //     })
-
-    //     this.setState({
-    //         isBooked
-    //     })
-    // }
-
     onSubmit = (e) => {
-        // const { isBooked } = this.state;
-        const currentRoom = sessionStorage.getItem("currentRoom");
+        const currentRoom = sessionStorage.getItem("currentRoom") || 0;
 
         e.preventDefault();
 
-        // this.checkState();
 
         const data = JSON.parse(localStorage.getItem("data" + currentRoom)) || { items: [] };
         const { date, start } = this.state;
@@ -78,10 +62,6 @@ class RoomScedule extends React.Component {
         const isBooked = data.items.some((event) => {
             return moment(date + 'T' + start + ':01').isBetween(event.date + 'T' + event.start, event.date + 'T' + event.end, 'second') === true;
         })
-
-        // this.setState({
-        //     isBooked
-        // })
 
         console.log(isBooked);
 
@@ -147,6 +127,7 @@ class RoomScedule extends React.Component {
                                     inputProps={{ min: "10:00", max: "18:00", step: "1" }}
                                     onChange={this.onChange}
                                 />
+
                                 <TextField
                                     id="time"
                                     label="End event"

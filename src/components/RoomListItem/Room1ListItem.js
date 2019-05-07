@@ -16,7 +16,7 @@ class Room1ListItem extends React.Component {
         const { roomNumber } = this.props;
         console.log(roomNumber);
 
-        // sessionStorage.setItem("currentRoom", roomNumber)
+        sessionStorage.setItem("currentRoom", roomNumber)
 
         localStorage.setItem("currentRoom", roomNumber)
     }
