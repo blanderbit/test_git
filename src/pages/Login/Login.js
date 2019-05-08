@@ -3,10 +3,25 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import MyForm from '../../components/MyForm/MyForm';
-import { signIn } from '../../redux/actions/auth';
+import { signIn, authFail } from '../../redux/actions/auth';
+import Page from '../../layouts/Page/Page';
+import { Dialog, DialogTitle } from '@material-ui/core';
 
 
 class Login extends React.Component {
+
+  state = {
+    open: false,
+  }
+
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+    this.props.onClose();
+  };
 
   handleRequest = (user) => {
     const { email } = user;
@@ -18,9 +33,26 @@ class Login extends React.Component {
   }
 
   render() {
-    if (this.props.isAuthenticated) {
+    const { isAuthenticated, err } = this.props;
+
+    if (isAuthenticated) {
       return (
         <Redirect exact to='/' />
+      )
+    }
+
+    if (err) {
+      console.log(err);
+
+      return (
+        <Page>
+          <Dialog
+            open={true}
+            onClose={this.handleClose}
+            aria-labelledby="simple-dialog-title" >
+            <DialogTitle id="simple-dialog-title">{err}</DialogTitle>
+          </Dialog>
+        </Page>
       )
     }
 
@@ -33,12 +65,14 @@ class Login extends React.Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.token !== null,
+    err: state.auth.err
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onSubmit: (user) => dispatch(signIn(user)),
+    onClose: () => dispatch(authFail(null))
   };
 };
 

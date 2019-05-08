@@ -6,7 +6,7 @@ import './RoomScedule.scss'
 import DayScedule from '../DayScedule/DayScedule';
 import { withStyles, TextField, Button, Typography, Dialog, DialogTitle } from '@material-ui/core';
 import Wrapper from '../../layouts/Wrapper';
-import { putTicket } from '../../redux/actions/tickets';
+import { putTicket, getTickets, deleteTickets } from '../../redux/actions/tickets';
 
 const styles = theme => ({
   container: {
@@ -47,52 +47,32 @@ class RoomScedule extends React.Component {
     this.setState({
       [name]: value
     })
-    console.log(this.state.date);
   }
 
-  // onSubmit = (e) => {
-  //   const currentRoom = sessionStorage.getItem("currentRoom") || 0;
-
-  //   e.preventDefault();
-
-
-  //   const data = JSON.parse(localStorage.getItem("data" + currentRoom)) || { items: [] };
-  //   const { date, start } = this.state;
-
-  //   const isBooked = data.items.some((event) => {
-  //     return moment(date + 'T' + start + ':01').isBetween(event.date + 'T' + event.start, event.date + 'T' + event.end, 'second') === true;
-  //   })
-
-  //   console.log(isBooked);
-
-  //   if (!isBooked) {
-  //     console.log(currentRoom);
-
-  //     let data = JSON.parse(localStorage.getItem("data" + currentRoom)) || { items: [] };
-  //     localStorage.removeItem("data" + currentRoom);
-  //     data.items.push(this.state);
-  //     localStorage.setItem("data" + currentRoom, JSON.stringify(data));
-  //   } else {
-  //     this.handleOpen();
-  //   }
-
-  //   this.setState({
-  //     date: moment().format('YYYY-MM-DD'),
-  //     start: '10:00',
-  //     end: '11:00'
-  //   })
-  // }
-
-  onSubmit = e => {
+  onAdd = e => {
     const { date, start, end } = this.state;
-    console.log(this.state);
 
     e.preventDefault();
-    this.props.onSubmit({
-      hall_id: '5ccc287f1b122511014ac960',
+
+    this.props.putTicket({
+      hall_id: localStorage.getItem("currentHallId"),
       user_id: localStorage.getItem("userId"),
-      from: new Date(date + 'T' + start).getTime(),
-      to: new Date(date + 'T' + end).getTime()
+      from: new Date(date + 'T' + start).getTime() + 1,
+      to: new Date(date + 'T' + end).getTime() - 1,
+      title: 'AAAAAA'
+    });
+  }
+
+  onDelete = e => {
+    const { date, start, end } = this.state;
+
+    e.preventDefault();
+
+    this.props.deleteTicket({
+      hall_id: localStorage.getItem("currentHallId"),
+      user_id: localStorage.getItem("userId"),
+      from: new Date(date + 'T' + start).getTime() + 1,
+      to: new Date(date + 'T' + end).getTime() - 1,
     });
   }
 
@@ -103,11 +83,7 @@ class RoomScedule extends React.Component {
 
     return (
       <div>
-        {/* <Calendar
-                    // onChange={this.onChange}
-                    value={date}
-                /> */}
-        <form className="roomscedule" noValidate onSubmit={this.onSubmit}>
+        <form className="roomscedule" noValidate onSubmit={this.onAdd}>
           <div className="picker-container">
             <TextField
               id="date"
@@ -120,7 +96,6 @@ class RoomScedule extends React.Component {
               InputLabelProps={{
                 shrink: true,
               }}
-
               onChange={this.onChange}
             />
             {email && (
@@ -144,7 +119,6 @@ class RoomScedule extends React.Component {
                   id="time"
                   label="End event"
                   type="time"
-
                   name='end'
                   value={end}
                   className={classes.textField}
@@ -153,7 +127,6 @@ class RoomScedule extends React.Component {
                   }}
                   inputProps={{ min: start, max: "18:00", step: "1" }}
                   onChange={this.onChange}
-
                 />
               </Wrapper>)
             }
@@ -165,9 +138,9 @@ class RoomScedule extends React.Component {
             ? <Button
               type="submit"
               className={classes.margin}
-              color='secondary'
+              color='primary'
               variant='contained'
-              onClick={this.onSubmit}>
+              onClick={this.onAdd}>
               Book the room
               </Button>
             : <Typography>
@@ -181,14 +154,14 @@ class RoomScedule extends React.Component {
               for book the room
               </Typography>
           }
+          <Button
+            className={classes.margin}
+            color='secondary'
+            variant='contained'
+            onClick={this.onDelete}>
+            Delete ticket
+          </Button>
         </form>
-
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="simple-dialog-title" >
-          <DialogTitle id="simple-dialog-title">For this time the room is booked</DialogTitle>
-        </Dialog>
       </div>
     )
   }
@@ -202,7 +175,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSubmit: (user) => dispatch(putTicket(user)),
+    putTicket: (user) => dispatch(putTicket(user)),
+    deleteTicket: (user) => dispatch(deleteTickets(user)),
+    getTickets: () => dispatch(getTickets())
   };
 };
 

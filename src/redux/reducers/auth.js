@@ -4,17 +4,12 @@ const initialState = {
   email: null,
   token: null,
   userId: null,
-  error: null,
+  err: null,
   loading: false,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    // case actionTypes.AUTH_START:
-    //   return {
-    //     ...state,
-    //     loading: true
-    //   };
 
     case actionTypes.SIGNUP_SUCCESS:
       return {
@@ -32,12 +27,12 @@ const reducer = (state = initialState, action) => {
         loading: false
       };
 
-    // case actionTypes.AUTH_FAIL:
-    //   return {
-    //     ...state,
-    //     error: action.error,
-    //     loading: false
-    //   };
+    case actionTypes.AUTH_FAIL:
+      return {
+        ...state,
+        err: action.err,
+        loading: false
+      };
 
     case actionTypes.LOGOUT:
       return {
@@ -45,12 +40,6 @@ const reducer = (state = initialState, action) => {
         token: null,
         userId: null
       };
-
-    // case actionTypes.SET_AUTH_REDIRECT_PATH:
-    //   return {
-    //     ...state,
-    //     authRedirectPath: action.path
-    //   };
 
     default:
       return state;

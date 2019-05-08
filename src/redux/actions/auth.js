@@ -3,7 +3,6 @@ import axios from "axios";
 
 export const signUp = (email, password) => {
   return dispatch => {
-    //   dispatch(authStart());
     const user = {
       email,
       password,
@@ -22,19 +21,16 @@ export const signUp = (email, password) => {
 
         dispatch(signUpSuccess(id, email));
 
-        //   dispatch(checkAuthTimeout(response.data.expiresIn));
       })
       .catch(err => {
-        //   dispatch(authFail(err.response.data.error.message));
-        console.log(err);
-
+        dispatch(authFail(err.message));
+        console.log(err.message);
       });
   };
 };
 
 export const signIn = (user) => {
   return dispatch => {
-    //   dispatch(authStart());
 
     let url = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/signIn';
 
@@ -48,11 +44,9 @@ export const signIn = (user) => {
         localStorage.setItem("userId", _id);
 
         dispatch(signInSuccess(token));
-
-        //   dispatch(checkAuthTimeout(response.data.expiresIn));
       })
       .catch(err => {
-        //   dispatch(authFail(err.response.data.error.message));
+        dispatch(authFail(err.message));
         console.log(err);
 
       });
@@ -71,6 +65,13 @@ export const signInSuccess = (token) => {
   return {
     type: actionTypes.SIGNIN_SUCCESS,
     token
+  };
+};
+
+export const authFail = (err) => {
+  return {
+    type: actionTypes.AUTH_FAIL,
+    err
   };
 };
 

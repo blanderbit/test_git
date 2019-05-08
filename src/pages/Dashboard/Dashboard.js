@@ -7,38 +7,59 @@ import Room1ListItem from '../../components/RoomListItem/Room1ListItem';
 
 import './Dashboard.scss'
 import { loadHalls } from '../../redux/actions/halls';
+import Spinner from '../../components/Spinner/Spinner';
+import { Dialog, DialogTitle } from '@material-ui/core';
 
 class Dashboard extends React.Component {
+  state = {
+    open: true,
+  }
+
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   componentDidMount() {
     this.props.onLoad();
   }
 
   render() {
-    // const { roomItems } = halls;
 
-    let { halls } = this.props;
-    console.log(halls);
+    let { halls, err, isLoading } = this.props;
+
+    if (isLoading) {
+      return (
+        <Page >
+          <Spinner />
+        </Page>
+      )
+    }
+
+    if (err) {
+      return (
+        <Page>
+          <Dialog
+            open={this.state.open}
+            onClose={this.handleClose}
+            aria-labelledby="simple-dialog-title" >
+            <DialogTitle id="simple-dialog-title">{err}</DialogTitle>
+          </Dialog>
+        </Page>
+      )
+    }
 
     return (
 
       <Page >
-        {/* <div className="dashboard">
-          {
-            roomItems.map((room, idx) => {
-              return (
-                <Room1ListItem room={room} key={idx} roomNumber={idx} />
-              )
-            })
-          }
-        </div> */}
-
         <div className="dashboard">
           {
             halls.map((hall, idx) => {
-              console.log(hall);
               return (
-                <Room1ListItem hall={hall} key={idx} roomNumber={idx} />
+                <Room1ListItem hall={hall} key={idx} roomNumber={idx} hallId={hall._id} />
               )
             })
           }
@@ -50,7 +71,9 @@ class Dashboard extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    halls: state.halls,
+    halls: state.halls.halls,
+    err: state.halls.err,
+    isLoading: state.halls.isLoading,
   };
 };
 

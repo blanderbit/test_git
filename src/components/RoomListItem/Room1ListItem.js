@@ -13,15 +13,15 @@ import './Room1ListItem.scss'
 class Room1ListItem extends React.Component {
 
   clickHandler = () => {
-    const { roomNumber } = this.props;
+    const { roomNumber, hallId } = this.props;
 
-    sessionStorage.setItem("currentRoom", roomNumber)
+    localStorage.setItem("currentRoom", roomNumber);
 
-    localStorage.setItem("currentRoom", roomNumber)
+    localStorage.setItem("currentHallId", hallId);
   }
 
   render() {
-    const { hall: { title, description } } = this.props;
+    const { hall: { title, description, imageURL } } = this.props;
 
     return (
       <div className="room-listitem">
@@ -29,9 +29,10 @@ class Room1ListItem extends React.Component {
           <CardActionArea>
             <CardMedia
               className='media'
-              image='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6pCbrCEE95Wjx2hHuTi_G8neBVVdinnrkK9GqF8drnW9LnNOu6g'
+              image={imageURL}
               title={title}
             />
+
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
                 {title}
@@ -41,22 +42,22 @@ class Room1ListItem extends React.Component {
               </Typography>
             </CardContent>
           </CardActionArea>
+
           <CardActions>
             <Button
               size="small"
               onClick={this.clickHandler}
-              color="primary"
+              color="secondary"
               href='/room1'
             >
               Learn More
-                        </Button>
+            </Button>
           </CardActions>
         </Card>
       </div>
 
     );
   }
-
 }
 
 export default Room1ListItem;

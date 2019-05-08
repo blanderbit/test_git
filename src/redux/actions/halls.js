@@ -3,6 +3,7 @@ import axios from "axios";
 
 export const loadHalls = () => {
   return dispatch => {
+    dispatch(loadInit());
 
     let url = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/halls';
 
@@ -20,15 +21,28 @@ export const loadHalls = () => {
         dispatch(loadSuccess(halls));
       })
       .catch(err => {
-        console.log(err);
+        console.log(err.message);
+        dispatch(loadFail(err.message))
       });
   };
 };
 
-export const loadSuccess = (halls) => {
-
+export const loadInit = () => {
   return {
-    type: actionTypes.LOAD_HALLS,
+    type: actionTypes.LOAD_HALLS_INIT
+  }
+}
+
+export const loadSuccess = (halls) => {
+  return {
+    type: actionTypes.LOAD_HALLS_SUCCES,
     halls
+  };
+};
+
+export const loadFail = (err) => {
+  return {
+    type: actionTypes.LOAD_HALLS_FAIL,
+    err
   };
 };

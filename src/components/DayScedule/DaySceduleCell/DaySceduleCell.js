@@ -4,18 +4,16 @@ import { connect } from "react-redux";
 
 
 import './DaySceduleCell.scss';
-import { Typography } from '@material-ui/core';
+import { Typography, Dialog, DialogTitle } from '@material-ui/core';
 
 const DaySceduleCell = (props) => {
-  const currentRoom = sessionStorage.getItem("currentRoom")
-
-  const { items } = JSON.parse(localStorage.getItem("data" + currentRoom)) || { items: [] };
-
-  console.log(props.tickets);
-
-  const { hours, currentDate } = props
+  // const currentRoom = sessionStorage.getItem("currentRoom")
+  // const { items } = JSON.parse(localStorage.getItem("data" + currentRoom)) || { items: [] };
+  const { hours, currentDate, tickets } = props;
 
   const { date } = currentDate;
+
+  const currentHallId = localStorage.getItem("currentHallId");
 
   return (
     <div className="cell">
@@ -23,24 +21,28 @@ const DaySceduleCell = (props) => {
 
       <div className="mark ">
         {
-          items.map((event, idx) => {
+          !!tickets && tickets.map((ticket, idx) => {
+
             const isActive = (
-              moment(date + 'T' + hours + ':01').isBetween(event.date + 'T' + event.start, event.date + 'T' + event.end, 'minute') // true            )
+              moment(date + 'T' + hours + ':01').isBetween(ticket.from, ticket.to, 'millisecond') // true            )
             )
-            return (
-              isActive && <Typography key={idx} color='secondary'> Booked</Typography>
-            )
+
+            if (ticket.hall_id === currentHallId) {
+              return (
+                isActive && <Typography key={idx} color='secondary'> Booked</Typography>
+              )
+            };
           })
         }
       </div>
-
     </div>
   );
 }
 
 const mapStateToProps = state => {
   return {
-    tickets: state.tickets,
+    tickets: state.tickets.tickets,
+    err: state.tickets.err,
   };
 };
 
