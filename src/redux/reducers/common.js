@@ -1,7 +1,6 @@
 ﻿import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-    tickets: [],
     err: null,
     isLoading: false,
 }
@@ -9,27 +8,26 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
 
-        case actionTypes.GET_TICKETS_INIT:
+        case actionTypes.INIT_LOAD:
             return {
                 ...state,
                 isLoading: true
             };
 
-        case actionTypes.GET_TICKETS_SUCCESS:
+        case actionTypes.END_LOAD:
             return {
                 ...state,
-                tickets: action.tickets,
                 isLoading: false
             };
 
-        case actionTypes.GET_TICKETS_FAIL:
+        case actionTypes.GET_ERR:
             return {
                 ...state,
                 err: action.err,
                 isLoading: false
             };
 
-        case actionTypes.ERR_CONFIRM:
+        case actionTypes.RESET_ERR:
             return {
                 ...state,
                 err: null

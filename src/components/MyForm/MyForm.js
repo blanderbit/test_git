@@ -19,6 +19,10 @@ const styles = () => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  text: {
+    display: 'flex',
+    alignItems: 'center'
   }
 })
 
@@ -80,7 +84,7 @@ class MyForm extends React.Component {
               </Button>
             </form>
 
-            <div className={classes.margin}>
+            <div className={classes.margin + ' ' + classes.text}>
               {this.props.children}
             </div>
 

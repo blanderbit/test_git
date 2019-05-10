@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
-
+import PropTypes from 'prop-types';
 
 import { Typography, Button, Snackbar } from "@material-ui/core";
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -73,6 +73,11 @@ const mapDispatchToProps = dispatch => {
     onLogOut: () => dispatch(logout()),
   };
 };
+
+Header.propTypes = {
+  token: PropTypes.string,
+  onLogOut: PropTypes.func.isRequired,
+}
 
 export default connect(
   mapStateToProps,

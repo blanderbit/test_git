@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import moment from 'moment';
 import { connect } from "react-redux";
-
+import PropTypes from 'prop-types';
 
 import './DaySceduleCell.scss';
 import { Typography, Dialog, DialogTitle } from '@material-ui/core';
@@ -14,6 +14,7 @@ const DaySceduleCell = (props) => {
   const { date } = currentDate;
 
   const currentHallId = localStorage.getItem("currentHallId");
+  const userId = localStorage.getItem("userId");
 
   return (
     <div className="cell">
@@ -21,15 +22,16 @@ const DaySceduleCell = (props) => {
 
       <div className="mark ">
         {
-          !!tickets && tickets.map((ticket, idx) => {
-
-            const isActive = (
-              moment(date + 'T' + hours + ':01').isBetween(ticket.from, ticket.to, 'millisecond') // true            )
-            )
+          tickets.map((ticket, idx) => {
+            const isBooked = moment(date + 'T' + hours + ':01').isBetween(ticket.from, ticket.to, 'millisecond')
+            const isMine = ticket.user_id === userId;
 
             if (ticket.hall_id === currentHallId) {
               return (
-                isActive && <Typography key={idx} color='secondary'> Booked</Typography>
+                <div key={idx}>
+                  {isBooked && <Typography color='secondary'> Booked</Typography>}
+                  {isBooked && isMine && <Typography color='secondary'>(My Booking)</Typography>}
+                </div>
               )
             };
           })
@@ -39,15 +41,4 @@ const DaySceduleCell = (props) => {
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    tickets: state.tickets.tickets,
-    err: state.tickets.err,
-  };
-};
-
-
-export default connect(
-  mapStateToProps,
-)(DaySceduleCell);
-
+export default DaySceduleCell;

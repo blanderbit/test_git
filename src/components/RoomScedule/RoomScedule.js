@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import moment from 'moment'
 import { connect } from "react-redux";
+import PropTypes, { func } from 'prop-types';
 
 import './RoomScedule.scss'
 import DayScedule from '../DayScedule/DayScedule';
@@ -92,7 +93,7 @@ class RoomScedule extends React.Component {
               name='date'
               value={date}
               className={classes.textField}
-              inputProps={{ min: date }}
+              inputProps={{ min: moment().format('YYYY-MM-DD') }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -132,7 +133,7 @@ class RoomScedule extends React.Component {
             }
           </div>
 
-          <DayScedule currentDate={this.state} />
+          <DayScedule currentDate={this.state} {...this.props} />
 
           {email
             ? <Button
@@ -154,13 +155,13 @@ class RoomScedule extends React.Component {
               for book the room
               </Typography>
           }
-          <Button
+          {email && <Button
             className={classes.margin}
             color='secondary'
             variant='contained'
             onClick={this.onDelete}>
             Delete ticket
-          </Button>
+          </Button>}
         </form>
       </div>
     )
@@ -177,9 +178,15 @@ const mapDispatchToProps = dispatch => {
   return {
     putTicket: (user) => dispatch(putTicket(user)),
     deleteTicket: (user) => dispatch(deleteTickets(user)),
-    getTickets: () => dispatch(getTickets())
   };
 };
+
+RoomScedule.propTypes = {
+  isAuthenticated: PropTypes.bool,
+
+  putTicket: PropTypes.func.isRequired,
+  deleteTicket: PropTypes.func.isRequired,
+}
 
 export default connect(
   mapStateToProps,

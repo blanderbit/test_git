@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
+import PropTypes from 'prop-types';
 
 import Page from '../../layouts/Page/Page';
 import Room1ListItem from '../../components/RoomListItem/Room1ListItem';
@@ -82,6 +83,13 @@ const mapDispatchToProps = dispatch => {
     onLoad: () => dispatch(loadHalls()),
   };
 };
+
+Dashboard.propTypes = {
+  halls: PropTypes.array.isRequired,
+  err: PropTypes.string,
+  isLoading: PropTypes.bool.isRequired,
+  onLoad: PropTypes.func.isRequired,
+}
 
 export default connect(
   mapStateToProps,

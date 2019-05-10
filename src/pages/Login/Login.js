@@ -1,11 +1,12 @@
 ﻿import React from 'react';
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import PropTypes from 'prop-types';
 
 import MyForm from '../../components/MyForm/MyForm';
 import { signIn, authFail } from '../../redux/actions/auth';
 import Page from '../../layouts/Page/Page';
-import { Dialog, DialogTitle } from '@material-ui/core';
+import { Dialog, DialogTitle, Typography, Button } from '@material-ui/core';
 
 
 class Login extends React.Component {
@@ -57,7 +58,15 @@ class Login extends React.Component {
     }
 
     return (
-      <MyForm userRequest={this.handleRequest} formType="Login" />
+      <MyForm userRequest={this.handleRequest} formType="Login">
+        <Typography align='center'> Have no account?</Typography>
+        <Button
+          href='/sign-up'
+          variant='text'
+          color='secondary'>
+          Sign Up
+        </Button>
+      </MyForm>
     )
   }
 }
@@ -75,6 +84,13 @@ const mapDispatchToProps = dispatch => {
     onClose: () => dispatch(authFail(null))
   };
 };
+
+Login.propTypes = {
+  isAuthenticated: PropTypes.bool,
+  err: PropTypes.string,
+  onSubmit: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+}
 
 export default connect(
   mapStateToProps,

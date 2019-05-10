@@ -1,12 +1,13 @@
 ﻿import React from 'react';
 import { connect } from "react-redux";
-
-import { Typography, Button, Dialog, DialogTitle } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import { Typography, Button, Dialog, DialogTitle, Divider } from '@material-ui/core';
 
 
 import MyForm from '../../components/MyForm/MyForm';
 import { signUp, authFail } from '../../redux/actions/auth';
 import Page from '../../layouts/Page/Page';
+import '../../styles/index.scss'
 
 class SignUp extends React.Component {
 
@@ -31,18 +32,21 @@ class SignUp extends React.Component {
   render() {
     const { isSignedUp, err } = this.props;
 
-    if (isSignedUp) {
+    if (true) {
       return (
         <Page>
-          <Typography align='center' variant='h3'>
-            Account created please
-          <Button
+          <div className='flexbox col align-center justify-center'>
+            <Typography align='center' variant='h3'>Account created please </Typography>
+            <br />
+            <Button
               href='/sign-in'
+              size='large'
               variant='text'
               color='secondary'>
               Login
           </Button>
-          </Typography>
+          </div>
+
         </Page>
       )
     }
@@ -64,15 +68,13 @@ class SignUp extends React.Component {
 
     return (
       <MyForm userRequest={this.handleRequest} formType="Sign Up">
-        <Typography align='center'>
-          Have an account?
-          <Button
-            href='/sign-in'
-            variant='text'
-            color='secondary'>
-            Login
-          </Button>
-        </Typography>
+        <Typography align='center'> Have an account? </Typography>
+        <Button
+          href='/sign-in'
+          variant='text'
+          color='secondary'>
+          Login
+        </Button>
       </MyForm>
     )
   }
@@ -91,6 +93,14 @@ const mapDispatchToProps = dispatch => {
     onClose: () => dispatch(authFail(null))
   };
 };
+
+SignUp.propTypes = {
+  isSignedUp: PropTypes.bool,
+  err: PropTypes.string,
+
+  onSubmit: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+}
 
 export default connect(
   mapStateToProps,

@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import { connect } from "react-redux";
 import { Paper, Typography, withStyles, Avatar, Dialog, DialogTitle } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 import Page from '../../layouts/Page/Page';
 import Spinner from '../../components/Spinner/Spinner';
@@ -47,10 +48,10 @@ class Room1 extends React.Component {
   }
 
   render() {
-    const { classes, halls, hallsErr, ticketsErr, isLoading } = this.props;
+    const { classes, halls, hallsErr, tickets, ticketsErr, hallsLoading, ticketsLoading } = this.props;
     const currentRoom = + localStorage.getItem("currentRoom") || 0;
 
-    if (isLoading) {
+    if (hallsLoading || ticketsLoading) {
       return (
         <Page>
           <Spinner></Spinner>
@@ -90,25 +91,22 @@ class Room1 extends React.Component {
             {halls[currentRoom].description}
           </Typography>
 
-          {/* <Typography >
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas ut labore officiis! Numquam, odit voluptate ad aliquam neque repudiandae dolores, quis magnam voluptas natus voluptatem eveniet ratione. Temporibus nulla, quibusdam asperiores aliquid fuga incidunt vel? Commodi veritatis tempore expedita et dignissimos consectetur? Laboriosam quibusdam vitae aspernatur. Laboriosam enim error voluptas?
-          </Typography> */}
-
-          <RoomScedule />
+          <RoomScedule tickets={tickets} />
 
         </Paper>}
       </Page>
     );
   }
-
 }
 
 const mapStateToProps = state => {
   return {
     halls: state.halls.halls,
     hallsErr: state.halls.err,
+    tickets: state.tickets.tickets,
     ticketsErr: state.tickets.err,
-    isLoading: state.halls.isLoading,
+    hallsLoading: state.halls.isLoading,
+    ticketsLoading: state.tickets.isLoading,
   };
 };
 
@@ -119,6 +117,18 @@ const mapDispatchToProps = dispatch => {
     confirmErr: () => dispatch(confirmErr())
   };
 };
+
+Room1.propTypes = {
+  halls: PropTypes.array.isRequired,
+  hallsErr: PropTypes.string,
+  ticketsErr: PropTypes.string,
+  hallsLoading: PropTypes.bool.isRequired,
+  ticketsLoading: PropTypes.bool.isRequired,
+
+  onLoad: PropTypes.func.isRequired,
+  getTickets: PropTypes.func.isRequired,
+  confirmErr: PropTypes.func.isRequired,
+}
 
 export default connect(
   mapStateToProps,

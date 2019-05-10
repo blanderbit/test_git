@@ -5,20 +5,18 @@ const url = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/tickets';
 
 export const putTicket = (hall) => {
   return dispatch => {
-    let config = {
+    const config = {
       headers: {
         'Authorization': localStorage.getItem("token")
       }
     }
+    dispatch(getTicketsInit());
     axios
       .post(url, hall, config)
       .then(res => {
-        console.log(res);
-        const tickets = res.data;
-        dispatch(getTicketsSuccess(tickets));
+        dispatch(getTickets());
       })
       .catch(err => {
-        console.log(err);
         dispatch(getTicketsFail(err.message));
       });
   };
@@ -26,6 +24,7 @@ export const putTicket = (hall) => {
 
 export const getTickets = () => {
   return dispatch => {
+    dispatch(getTicketsInit());
     axios
       .get(url)
       .then(res => {
@@ -42,7 +41,7 @@ export const getTickets = () => {
 
 export const deleteTickets = (hall) => {
   return dispatch => {
-    let config = {
+    const config = {
       headers: {
         'Authorization': localStorage.getItem("token")
       }
@@ -61,9 +60,15 @@ export const deleteTickets = (hall) => {
   };
 };
 
+export const getTicketsInit = () => {
+  return {
+    type: actionTypes.GET_TICKETS_INIT,
+  };
+};
+
 export const getTicketsSuccess = (tickets) => {
   return {
-    type: actionTypes.GET_TICKETS,
+    type: actionTypes.GET_TICKETS_SUCCESS,
     tickets
   };
 };
