@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import moment from 'moment';
-import { connect } from "react-redux";
-import PropTypes from 'prop-types';
+// import { connect } from "react-redux";
+// import PropTypes from 'prop-types';
 
 import './DaySceduleCell.scss';
 import { Typography, Dialog, DialogTitle } from '@material-ui/core';

@@ -16,15 +16,16 @@ export const signUp = (email, password) => {
         console.log(res);
         const { id, email } = res.data;
 
-        localStorage.setItem("userId", id);
+        // localStorage.setItem("userId", id);
         localStorage.setItem("email", email);
 
         dispatch(signUpSuccess(id, email));
 
       })
       .catch(err => {
-        dispatch(authFail(err.message));
         console.log(err.message);
+
+        dispatch(authFail(err.message));
       });
   };
 };
@@ -46,9 +47,9 @@ export const signIn = (user) => {
         dispatch(signInSuccess(token));
       })
       .catch(err => {
-        dispatch(authFail(err.message));
         console.log(err);
 
+        dispatch(authFail(err.message));
       });
   };
 };

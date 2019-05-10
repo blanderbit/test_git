@@ -9,8 +9,6 @@ const styles = theme => ({
     }
 });
 
-const id = localStorage.getItem("currentHallId");
-
 const Footer = (props) => {
     const { classes } = props;
     return (
@@ -19,7 +17,7 @@ const Footer = (props) => {
                 <Button href='/sign-in' variant='contained' color='secondary' className={classes.margin}>Sign In</Button>
                 <Button href='/sign-up' variant='contained' color='secondary' className={classes.margin}>Sign Up</Button>
             </div>
-            <Typography align='right' color='secondary'>{id} Made by Yaroslav Antonchyk ---</Typography>
+            <Typography align='right' color='secondary'> Made by Yaroslav Antonchyk </Typography>
         </div>
     )
 };

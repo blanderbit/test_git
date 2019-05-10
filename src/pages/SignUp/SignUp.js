@@ -32,7 +32,7 @@ class SignUp extends React.Component {
   render() {
     const { isSignedUp, err } = this.props;
 
-    if (true) {
+    if (isSignedUp) {
       return (
         <Page>
           <div className='flexbox col align-center justify-center'>
@@ -46,7 +46,6 @@ class SignUp extends React.Component {
               Login
           </Button>
           </div>
-
         </Page>
       )
     }

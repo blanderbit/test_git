@@ -14,12 +14,14 @@ import * as serviceWorker from './serviceWorker';
 import authReducer from "./redux/reducers/auth";
 import roomReducer from "./redux/reducers/halls";
 import ticketsReducer from "./redux/reducers/tickets";
+import commonReducer from "./redux/reducers/common";
 
 
 const rootReducer = combineReducers({
   auth: authReducer,
   halls: roomReducer,
-  tickets: ticketsReducer
+  tickets: ticketsReducer,
+  common: commonReducer
 });
 
 const store = createStore(

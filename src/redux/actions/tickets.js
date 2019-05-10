@@ -39,19 +39,20 @@ export const getTickets = () => {
   };
 };
 
-export const deleteTickets = (hall) => {
+export const deleteTickets = (hall, ticketId) => {
   return dispatch => {
     const config = {
       headers: {
         'Authorization': localStorage.getItem("token")
       }
     }
+    console.log(`${url}/${ticketId}`);
+
     axios
-      .delete(url, hall, config)
+      .delete(`${url}/${ticketId}`, config)
       .then(res => {
         console.log(res);
-        // const tickets = res.data;
-        // dispatch(getTicketsSuccess(tickets));
+        dispatch(getTickets());
       })
       .catch(err => {
         console.log(err);

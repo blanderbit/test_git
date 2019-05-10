@@ -65,16 +65,31 @@ class RoomScedule extends React.Component {
   }
 
   onDelete = e => {
+    e.preventDefault();
+
     const { date, start, end } = this.state;
 
-    e.preventDefault();
+    const { tickets } = this.props;
+
+    let ticketId = null;
+
+    tickets.forEach(ticket => {
+      // console.log(moment(`${date}T${start}:55`).isBetween(ticket.from, ticket.to, 'millisecond'));
+
+      if (moment(`${date}T${start}:55`).isBetween(ticket.from, ticket.to, 'millisecond')) {
+        ticketId = ticket._id
+      }
+    });
+
+    console.log(ticketId);
+
 
     this.props.deleteTicket({
       hall_id: localStorage.getItem("currentHallId"),
       user_id: localStorage.getItem("userId"),
       from: new Date(date + 'T' + start).getTime() + 1,
       to: new Date(date + 'T' + end).getTime() - 1,
-    });
+    }, ticketId);
   }
 
   render() {
@@ -105,7 +120,6 @@ class RoomScedule extends React.Component {
                   id="time"
                   label="Start event"
                   type="time"
-
                   name="start"
                   value={start}
                   className={classes.textField}
@@ -171,13 +185,14 @@ class RoomScedule extends React.Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.token !== null,
+    tickets: state.tickets.tickets
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     putTicket: (user) => dispatch(putTicket(user)),
-    deleteTicket: (user) => dispatch(deleteTickets(user)),
+    deleteTicket: (user, ticketId) => dispatch(deleteTickets(user, ticketId)),
   };
 };
 
