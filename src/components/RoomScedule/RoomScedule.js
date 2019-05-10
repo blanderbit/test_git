@@ -1,13 +1,13 @@
 ﻿import React from 'react';
 import moment from 'moment'
 import { connect } from "react-redux";
-import PropTypes, { func } from 'prop-types';
+import PropTypes from 'prop-types';
 
 import './RoomScedule.scss'
 import DayScedule from '../DayScedule/DayScedule';
-import { withStyles, TextField, Button, Typography, Dialog, DialogTitle } from '@material-ui/core';
+import { withStyles, TextField, Button, Typography } from '@material-ui/core';
 import Wrapper from '../../layouts/Wrapper';
-import { putTicket, getTickets, deleteTickets } from '../../redux/actions/tickets';
+import { putTicket, deleteTickets } from '../../redux/actions/tickets';
 
 const styles = theme => ({
   container: {
@@ -48,12 +48,12 @@ class RoomScedule extends React.Component {
     this.setState({
       [name]: value
     })
+    localStorage.setItem([name], value)
   }
 
   onAdd = e => {
-    const { date, start, end } = this.state;
-
     e.preventDefault();
+    const { date, start, end } = this.state;
 
     this.props.putTicket({
       hall_id: localStorage.getItem("currentHallId"),
@@ -68,21 +68,14 @@ class RoomScedule extends React.Component {
     e.preventDefault();
 
     const { date, start, end } = this.state;
-
     const { tickets } = this.props;
-
     let ticketId = null;
 
     tickets.forEach(ticket => {
-      // console.log(moment(`${date}T${start}:55`).isBetween(ticket.from, ticket.to, 'millisecond'));
-
       if (moment(`${date}T${start}:55`).isBetween(ticket.from, ticket.to, 'millisecond')) {
         ticketId = ticket._id
       }
     });
-
-    console.log(ticketId);
-
 
     this.props.deleteTicket({
       hall_id: localStorage.getItem("currentHallId"),
@@ -172,6 +165,7 @@ class RoomScedule extends React.Component {
           {email && <Button
             className={classes.margin}
             color='secondary'
+            // disabled={isDisabled}
             variant='contained'
             onClick={this.onDelete}>
             Delete ticket
@@ -198,7 +192,7 @@ const mapDispatchToProps = dispatch => {
 
 RoomScedule.propTypes = {
   isAuthenticated: PropTypes.bool,
-
+  tickets: PropTypes.array.isRequired,
   putTicket: PropTypes.func.isRequired,
   deleteTicket: PropTypes.func.isRequired,
 }

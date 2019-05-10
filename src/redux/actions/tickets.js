@@ -1,5 +1,7 @@
 ﻿import * as actionTypes from './actionTypes'
 import axios from "axios";
+import moment from 'moment';
+
 
 const url = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/tickets';
 
@@ -11,14 +13,23 @@ export const putTicket = (hall) => {
       }
     }
     dispatch(getTicketsInit());
-    axios
-      .post(url, hall, config)
-      .then(res => {
-        dispatch(getTickets());
-      })
-      .catch(err => {
-        dispatch(getTicketsFail(err.message));
-      });
+    const { from } = hall;
+    console.log(from);
+
+    if (new Date().getTime() < from) {
+      axios
+        .post(url, hall, config)
+        .then(res => {
+          dispatch(getTickets());
+        })
+        .catch(err => {
+          dispatch(getTicketsFail(err.message));
+        });
+    } else {
+      dispatch(getTicketsFail("This time is already past"))
+    }
+
+
   };
 };
 
