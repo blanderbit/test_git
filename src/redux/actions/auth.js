@@ -8,7 +8,7 @@ export const signUp = (email, password) => {
       password,
     };
 
-    let url = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/signUp';
+    const url = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/signUp';
 
     axios
       .post(url, user)
@@ -33,7 +33,7 @@ export const signUp = (email, password) => {
 export const signIn = (user) => {
   return dispatch => {
 
-    let url = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/signIn';
+    const url = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/signIn';
 
     axios
       .post(url, user)

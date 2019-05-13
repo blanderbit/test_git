@@ -1,22 +1,29 @@
 ﻿import * as actionTypes from './actionTypes'
 import axios from "axios";
-import moment from 'moment';
-
 
 const url = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/tickets';
+const putUrl = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/ticket';
+const config = {
+  headers: {
+    'Authorization': localStorage.getItem("token")
+  }
+}
 
-export const putTicket = (hall) => {
+export const postTicket = (hall) => {
   return dispatch => {
-    const config = {
-      headers: {
-        'Authorization': localStorage.getItem("token")
-      }
-    }
+    // const config = {
+    //   headers: {
+    //     'Authorization': localStorage.getItem("token")
+    //   }
+    // }
     dispatch(getTicketsInit());
-    const { from } = hall;
-    console.log(from);
+    const { from, to } = hall;
 
-    if (new Date().getTime() < from) {
+    if (new Date().getTime() > from) {
+      dispatch(getTicketsFail("This time is already past"))
+    } else if (from > to) {
+      dispatch(getTicketsFail("End must be later then start"))
+    } else {
       axios
         .post(url, hall, config)
         .then(res => {
@@ -25,11 +32,36 @@ export const putTicket = (hall) => {
         .catch(err => {
           dispatch(getTicketsFail(err.message));
         });
-    } else {
-      dispatch(getTicketsFail("This time is already past"))
     }
+  };
+};
+
+export const putTicket = (hall, ticketId) => {
+  return dispatch => {
+    // const config = {
+    //   headers: {
+    //     'Authorization': localStorage.getItem("token")
+    //   }
+    // }
+    dispatch(getTicketsInit());
+    const { from, to } = hall;
+    console.log(from);
 
 
+    if (new Date().getTime() > from) {
+      dispatch(getTicketsFail("This time is already past"))
+    } else if (from > to) {
+      dispatch(getTicketsFail("End must be later then start"))
+    } else {
+      axios
+        .put(`${putUrl}/${ticketId}`, { from, to }, config)
+        .then(() => {
+          dispatch(getTickets());
+        })
+        .catch(err => {
+          dispatch(getTicketsFail(err.message));
+        });
+    }
   };
 };
 
@@ -39,12 +71,10 @@ export const getTickets = () => {
     axios
       .get(url)
       .then(res => {
-        console.log(res);
         const tickets = res.data;
         dispatch(getTicketsSuccess(tickets));
       })
       .catch(err => {
-        console.log(err);
         dispatch(getTicketsFail(err.message));
       });
   };
@@ -52,25 +82,18 @@ export const getTickets = () => {
 
 export const deleteTickets = (hall, ticketId) => {
   return dispatch => {
-    const config = {
-      headers: {
-        'Authorization': localStorage.getItem("token")
-      }
-    }
-    console.log(`${url}/${ticketId}`);
-
     axios
       .delete(`${url}/${ticketId}`, config)
       .then(res => {
-        console.log(res);
         dispatch(getTickets());
       })
       .catch(err => {
-        console.log(err);
         dispatch(getTicketsFail(err.message));
       });
   };
 };
+
+
 
 export const getTicketsInit = () => {
   return {
