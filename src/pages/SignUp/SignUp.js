@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
-import { Typography, Button, Dialog, DialogTitle, Divider } from '@material-ui/core';
+import { Typography, Button, Dialog, DialogTitle } from '@material-ui/core';
 
 
 import MyForm from '../../components/MyForm/MyForm';

@@ -10,12 +10,7 @@ const config = {
 }
 
 export const postTicket = (hall) => {
-  return dispatch => {
-    // const config = {
-    //   headers: {
-    //     'Authorization': localStorage.getItem("token")
-    //   }
-    // }
+  return dispatch => {    
     dispatch(getTicketsInit());
     const { from, to } = hall;
 
@@ -37,16 +32,9 @@ export const postTicket = (hall) => {
 };
 
 export const putTicket = (hall, ticketId) => {
-  return dispatch => {
-    // const config = {
-    //   headers: {
-    //     'Authorization': localStorage.getItem("token")
-    //   }
-    // }
+  return dispatch => {    
     dispatch(getTicketsInit());
     const { from, to } = hall;
-    console.log(from);
-
 
     if (new Date().getTime() > from) {
       dispatch(getTicketsFail("This time is already past"))

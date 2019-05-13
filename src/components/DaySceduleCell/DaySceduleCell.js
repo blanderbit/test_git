@@ -1,18 +1,14 @@
 ﻿import React from 'react';
 import moment from 'moment';
-// import { connect } from "react-redux";
-// import PropTypes from 'prop-types';
 
 import './DaySceduleCell.scss';
-import { Typography, Dialog, DialogTitle } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
 const DaySceduleCell = (props) => {
   // const currentRoom = sessionStorage.getItem("currentRoom")
   // const { items } = JSON.parse(localStorage.getItem("data" + currentRoom)) || { items: [] };
   const { hours, currentDate, tickets } = props;
-
   const { date } = currentDate;
-
   const currentHallId = localStorage.getItem("currentHallId");
   const userId = localStorage.getItem("userId");
 
