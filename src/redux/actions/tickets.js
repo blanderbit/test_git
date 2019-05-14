@@ -44,7 +44,7 @@ export const putTicket = (hall, ticketId) => {
       dispatch(getTicketsFail("End must be later then start"))
     } else {
       axios
-        .put(`${putUrl}/${ticketId}`, { from, to }, config)
+        .put(`${putUrl}/${ticketId}`, { from, to, title: "event" }, config)
         .then(() => {
           dispatch(getTickets());
         })

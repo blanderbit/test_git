@@ -32,6 +32,14 @@ class RoomScedule extends React.Component {
 
   onChange = (e) => {
     const { name, value } = e.target;
+    const { date } = this.state;
+    console.log(moment(`${date}T${value}:00`).add(1, 'hours').format('HH:00'))
+
+    if (name === "start") {
+      this.setState({
+        end: moment(`${date}T${value}:00`).add(1, 'hours').format('HH:00')
+      })
+    }
 
     this.setState({
       [name]: value
@@ -98,7 +106,7 @@ class RoomScedule extends React.Component {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  inputProps={{ min: start, max: "18:00", step: "1" }}
+                  inputProps={{ min: moment(`${date}T${start}:00`).add(1, 'hours').format('HH:00'), max: "18:00", step: "1" }}
                   onChange={this.onChange}
                 />
               </Wrapper>)
@@ -107,7 +115,7 @@ class RoomScedule extends React.Component {
 
           <EditBar date={date} start={start} end={end} isAuthenticated={isAuthenticated} />
 
-          <Typography variant='h4'>Scedule for {date}</Typography>
+          <Typography variant='h4' align='center'>Scedule for {date}</Typography>
 
           <DayScedule currentDate={this.state} {...this.props} />
 

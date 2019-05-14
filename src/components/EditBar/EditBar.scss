@@ -1,0 +1,22 @@
+﻿.edit-bar{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .danger {
+        display: flex;
+        flex-direction: column;
+        align-items: center
+    }
+}
+
+
+@media (min-width: 768px) {
+    .edit-bar {
+        flex-direction: row;
+        
+        .danger {
+            flex-direction: row;
+        }
+    }
+}

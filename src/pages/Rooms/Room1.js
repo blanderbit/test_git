@@ -1,6 +1,5 @@
 ﻿import React from 'react';
 import { connect } from "react-redux";
-import moment from 'moment';
 import { Paper, Typography, withStyles, Avatar, Dialog, DialogTitle } from '@material-ui/core';
 import PropTypes from 'prop-types';
 

@@ -5,16 +5,13 @@ import PropTypes from 'prop-types';
 import { Toolbar, withStyles, Button, Typography, Dialog, DialogTitle, TextField } from '@material-ui/core';
 
 import { postTicket, putTicket, deleteTickets } from '../../redux/actions/tickets';
-import '../../styles/index.scss'
+import '../../styles/index.scss';
+import './EditBar.scss'
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
     width: '100%'
-  },
-  toolbar: {
-    display: 'flex',
-    justifyContent: 'space-between'
   },
   margin: {
     margin: theme.spacing.unit,
@@ -100,14 +97,14 @@ class EditBar extends React.Component {
     const currentHallId = localStorage.getItem("currentHallId");
     const userId = localStorage.getItem("userId");
     const isActive = tickets.some(ticket => {
-      if (currentHallId === ticket.hall_id &&userId ===ticket.user_id) {
+      if (currentHallId === ticket.hall_id && userId === ticket.user_id) {
         return moment(`${date}T${start}:05`).isBetween(ticket.from, ticket.to, 'milliseconds')
       }
     });
 
     return (
       <div className={classes.root}>
-        <Toolbar className={classes.toolbar}>
+        <Toolbar className="edit-bar">
           {isAuthenticated
             ? <Button
               type="submit"
@@ -130,7 +127,7 @@ class EditBar extends React.Component {
           }
 
           {isAuthenticated &&
-            <div>
+            <div className="danger">
               <Button
                 className={classes.margin}
                 color='secondary'

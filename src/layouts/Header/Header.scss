@@ -2,6 +2,7 @@
 
 .header {
     display: flex;
+    flex-direction: column;
     padding: 1em;
     justify-content: space-between;
     align-items: center;
@@ -21,6 +22,7 @@
 
 @media (min-width: 768px) {
     .header{
+        flex-direction: row;
         h1{
             font-size: 3em
         }
