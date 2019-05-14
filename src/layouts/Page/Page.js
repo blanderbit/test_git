@@ -1,5 +1,4 @@
 import React from 'react';
-import { Divider } from '@material-ui/core';
 
 import './Page.scss';
 import Header from '../Header/Header';
@@ -9,15 +8,13 @@ const Page = (props) => {
   return (
     <div className="page">
       <Header />
-      <Divider />
       <div className="page-content">
         {props.children}
       </div>
-      <Divider />
       <Footer />
     </div>
   );
-};
+}
 
 
 

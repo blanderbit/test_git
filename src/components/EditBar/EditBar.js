@@ -24,7 +24,7 @@ const styles = theme => ({
 
 class EditBar extends React.Component {
   state = {
-    newDate: moment().format('YYYY-MM-DD'),
+    newDate: sessionStorage.getItem("newDate") || moment().format('YYYY-MM-DD'),
     newStart: '10:00',
     newEnd: '11:00',
     open: false,
@@ -81,7 +81,7 @@ class EditBar extends React.Component {
   onDelete = e => {
     e.preventDefault();
 
-    const { tickets, deleteTicket, date, start, end } = this.props;
+    const { tickets, deleteTicket, date, start } = this.props;
     let ticketId = null;
 
     tickets.forEach(ticket => {
@@ -90,12 +90,7 @@ class EditBar extends React.Component {
       }
     });
 
-    deleteTicket({
-      hall_id: localStorage.getItem("currentHallId"),
-      user_id: localStorage.getItem("userId"),
-      from: new Date(`${date}T${start}`).getTime() + 1,
-      to: new Date(`${date}T${end}`).getTime() - 1,
-    }, ticketId);
+    deleteTicket(ticketId);
   }
 
   render() {
@@ -103,8 +98,9 @@ class EditBar extends React.Component {
     const { newDate, newStart, newEnd, open } = this.state;
 
     const currentHallId = localStorage.getItem("currentHallId");
+    const userId = localStorage.getItem("userId");
     const isActive = tickets.some(ticket => {
-      if (currentHallId === ticket.hall_id) {
+      if (currentHallId === ticket.hall_id &&userId ===ticket.user_id) {
         return moment(`${date}T${start}:05`).isBetween(ticket.from, ticket.to, 'milliseconds')
       }
     });
@@ -201,7 +197,7 @@ class EditBar extends React.Component {
               InputLabelProps={{
                 shrink: true,
               }}
-              inputProps={{ min: start, max: "18:00", step: "1" }}
+              inputProps={{ min: newStart, max: "18:00", step: "1" }}
               onChange={this.onChange}
             />
 
@@ -223,7 +219,7 @@ const mapDispatchToProps = dispatch => {
   return {
     postTicket: (user) => dispatch(postTicket(user)),
     correctTicket: (user, ticketId) => dispatch(putTicket(user, ticketId)),
-    deleteTicket: (user, ticketId) => dispatch(deleteTickets(user, ticketId)),
+    deleteTicket: (ticketId) => dispatch(deleteTickets(ticketId)),
   };
 };
 

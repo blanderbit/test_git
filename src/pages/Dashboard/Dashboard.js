@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
+import { Dialog, DialogTitle } from '@material-ui/core';
 
 import Page from '../../layouts/Page/Page';
 import Room1ListItem from '../../components/RoomListItem/Room1ListItem';
@@ -9,7 +10,6 @@ import Room1ListItem from '../../components/RoomListItem/Room1ListItem';
 import './Dashboard.scss'
 import { loadHalls } from '../../redux/actions/halls';
 import Spinner from '../../components/Spinner/Spinner';
-import { Dialog, DialogTitle } from '@material-ui/core';
 
 class Dashboard extends React.Component {
   state = {
@@ -53,7 +53,6 @@ class Dashboard extends React.Component {
     }
 
     return (
-
       <Page >
         <div className="dashboard">
           {

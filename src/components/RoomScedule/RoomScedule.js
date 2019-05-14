@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import moment from 'moment';
+// import { connect } from "react-redux";
 import { withStyles, TextField, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
@@ -7,6 +8,7 @@ import './RoomScedule.scss';
 import DayScedule from '../DayScedule/DayScedule';
 import Wrapper from '../../layouts/Wrapper';
 import EditBar from '../EditBar/EditBar';
+// import { getTickets } from '../../redux/actions/tickets';
 
 const styles = theme => ({
   container: {
@@ -22,18 +24,30 @@ const styles = theme => ({
 
 class RoomScedule extends React.Component {
   state = {
-    date: moment().format('YYYY-MM-DD'),
+    date: sessionStorage.getItem("date") || moment().format('YYYY-MM-DD'),
     start: '10:00',
     end: '11:00',
     open: false,
   }
 
   onChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
+
+    this.setState({
+      [name]: value
+    });
+    sessionStorage.setItem([name], value);
+  }
+
+  onChangeDay = (e) => {
+    const { name, value } = e.target;
+    const { getTickets } = this.props;
+
     this.setState({
       [name]: value
     })
-    sessionStorage.setItem([name], value)
+    sessionStorage.setItem([name], value);
+    getTickets();
   }
 
   render() {
@@ -56,7 +70,7 @@ class RoomScedule extends React.Component {
               InputLabelProps={{
                 shrink: true,
               }}
-              onChange={this.onChange}
+              onChange={this.onChangeDay}
             />
 
             {isAuthenticated && (
@@ -71,7 +85,7 @@ class RoomScedule extends React.Component {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  inputProps={{ min: "10:00", max: "18:00", step: "1" }}
+                  inputProps={{ min: "10:00", max: "17:00", step: "1" }}
                   onChange={this.onChange}
                 />
                 <TextField
@@ -104,7 +118,8 @@ class RoomScedule extends React.Component {
 }
 
 RoomScedule.propTypes = {
-  classes: PropTypes.object.isRequired  
+  classes: PropTypes.object.isRequired,
+  getTickets: PropTypes.func.isRequired
 }
 
 export default (withStyles(styles)(RoomScedule));

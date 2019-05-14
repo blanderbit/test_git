@@ -55,7 +55,6 @@ class Room1ListItem extends React.Component {
           </CardActions>
         </Card>
       </div>
-
     );
   }
 }

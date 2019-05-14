@@ -43,7 +43,7 @@ class SignUp extends React.Component {
               size='large'
               variant='text'
               color='secondary'>
-              Login
+              <Typography align='center' variant='h3'>Login</Typography>              
           </Button>
           </div>
         </Page>

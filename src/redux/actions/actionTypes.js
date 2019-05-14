@@ -16,7 +16,7 @@ export const GET_TICKETS_FAIL = "GET_TICKETS_FAIL";
 
 export const ERR_CONFIRM = "ERR_CONFIRM"
 
-export const INIT_LOAD = "INIT_LOAD";
-export const END_LOAD = "END_LOAD";
-export const GET_ERR = "GET_ERR";
-export const RESET_ERR = "RESET_ERR";
+// export const INIT_LOAD = "INIT_LOAD";
+// export const END_LOAD = "END_LOAD";
+// export const GET_ERR = "GET_ERR";
+// export const RESET_ERR = "RESET_ERR";

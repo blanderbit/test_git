@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import { connect } from "react-redux";
+import moment from 'moment';
 import { Paper, Typography, withStyles, Avatar, Dialog, DialogTitle } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
@@ -42,13 +43,22 @@ class Room1 extends React.Component {
     this.handleOpen();
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.onLoad();
     this.props.getTickets();
   }
 
   render() {
-    const { classes, halls, hallsErr, tickets, ticketsErr, hallsLoading, ticketsLoading } = this.props;
+    const {
+      classes,
+      halls,
+      hallsErr,
+      tickets,
+      ticketsErr,
+      hallsLoading,
+      ticketsLoading,
+      getTickets
+    } = this.props;
     const currentRoom = + localStorage.getItem("currentRoom") || 0;
 
     if (hallsLoading || ticketsLoading) {
@@ -91,7 +101,7 @@ class Room1 extends React.Component {
             {halls[currentRoom].description}
           </Typography>
 
-          <RoomScedule tickets={tickets} />
+          <RoomScedule tickets={tickets} getTickets={getTickets} />
 
         </Paper>}
       </Page>

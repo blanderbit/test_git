@@ -1,5 +1,7 @@
 ﻿import * as actionTypes from './actionTypes'
 import axios from "axios";
+import moment from 'moment';
+// import moment from 'moment';
 
 const url = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/tickets';
 const putUrl = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/ticket';
@@ -10,7 +12,7 @@ const config = {
 }
 
 export const postTicket = (hall) => {
-  return dispatch => {    
+  return dispatch => {
     dispatch(getTicketsInit());
     const { from, to } = hall;
 
@@ -32,7 +34,7 @@ export const postTicket = (hall) => {
 };
 
 export const putTicket = (hall, ticketId) => {
-  return dispatch => {    
+  return dispatch => {
     dispatch(getTicketsInit());
     const { from, to } = hall;
 
@@ -54,13 +56,20 @@ export const putTicket = (hall, ticketId) => {
 };
 
 export const getTickets = () => {
+  const date = sessionStorage.getItem("date") || moment().format('YYYY-MM-DD')
+  const from = new Date(`${date}T10:00`).getTime();
+  const to = new Date(`${date}T18:00`).getTime();
+  console.log(from);
+
   return dispatch => {
     dispatch(getTicketsInit());
     axios
-      .get(url)
+      // .get(`${url}`)
+      .get(`${url}params/${from}/${to}`)
       .then(res => {
         const tickets = res.data;
         dispatch(getTicketsSuccess(tickets));
+        console.log(tickets);
       })
       .catch(err => {
         dispatch(getTicketsFail(err.message));
@@ -68,7 +77,7 @@ export const getTickets = () => {
   };
 };
 
-export const deleteTickets = (hall, ticketId) => {
+export const deleteTickets = (ticketId) => {
   return dispatch => {
     axios
       .delete(`${url}/${ticketId}`, config)
