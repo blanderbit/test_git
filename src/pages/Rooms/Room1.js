@@ -8,6 +8,7 @@ import Spinner from '../../components/Spinner/Spinner';
 import RoomScedule from '../../components/RoomScedule/RoomScedule';
 import { loadHalls } from '../../redux/actions/halls';
 import { getTickets, confirmErr } from '../../redux/actions/tickets';
+import Calendar from '../../components/MyCalendar/MyCalendar';
 
 
 const styles = theme => ({

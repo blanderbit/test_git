@@ -1,0 +1,48 @@
+﻿.calendar {
+  width: 100%;
+  padding-bottom: 20px;
+
+  .calendar-header {
+    width: 100%;    
+    border-bottom: 1px solid ;
+    padding: 1.5em 0;
+  }
+
+  .days {
+    font-weight: 400;
+    font-size: 70%;
+    width: 100%;
+    padding: .75em 0.5em;
+    border-bottom: 1px solid ;
+    box-sizing: border-box;
+
+    .cell {
+      width: calc(100%/7);
+    }
+  }
+
+  .body {
+    .day {
+      display: inline-flex;
+      width: calc(100%/7);
+      padding: 1%;
+      box-sizing: border-box;
+      cursor: pointer;
+      border: 1px solid #ccc;
+
+      &:hover {
+        background: #aaa;
+        transition: 0.2s ease-out;
+      }
+    }
+
+    .disabled {
+      background: #ccc;
+      color: #333
+    }
+
+    .selected {
+      background-color: #F50057;
+    }
+  }
+}

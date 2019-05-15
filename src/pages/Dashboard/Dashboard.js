@@ -31,7 +31,6 @@ class Dashboard extends React.Component {
 
 
   render() {
-    console.log(this.props);
     let { halls, err, isLoading } = this.props;
 
     if (isLoading) {

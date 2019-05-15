@@ -8,6 +8,7 @@ import './RoomScedule.scss';
 import DayScedule from '../DayScedule/DayScedule';
 import Wrapper from '../../layouts/Wrapper';
 import EditBar from '../EditBar/EditBar';
+import Calendar from '../MyCalendar/MyCalendar';
 // import { getTickets } from '../../redux/actions/tickets';
 
 const styles = theme => ({
@@ -16,9 +17,8 @@ const styles = theme => ({
     flexWrap: 'wrap',
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
+    width: 400,
+    marginBottom: 20
   }
 });
 
@@ -30,10 +30,9 @@ class RoomScedule extends React.Component {
     open: false,
   }
 
-  onChange = (e) => {
+  onChangeTime = (e) => {
     const { name, value } = e.target;
     const { date } = this.state;
-    console.log(moment(`${date}T${value}:00`).add(1, 'hours').format('HH:00'))
 
     if (name === "start") {
       this.setState({
@@ -47,15 +46,15 @@ class RoomScedule extends React.Component {
     sessionStorage.setItem([name], value);
   }
 
-  onChangeDay = (e) => {
-    const { name, value } = e.target;
-    const { getTickets } = this.props;
-
+  onChangeDay = (date) => {
     this.setState({
-      [name]: value
+      date
     })
-    sessionStorage.setItem([name], value);
-    getTickets();
+  }
+
+  onChangeMonth = () => {
+    // const { getTickets } = this.props;
+    // getTickets();
   }
 
   render() {
@@ -67,18 +66,9 @@ class RoomScedule extends React.Component {
       <div>
         <form className="roomscedule" noValidate onSubmit={this.onAdd}>
           <div className="picker-container">
-            <TextField
-              id="date"
-              label={(isAuthenticated ? "Book" : "Check") + " room for date"}
-              type="date"
-              name='date'
-              value={date}
-              className={classes.textField}
-              inputProps={{ min: moment().format('YYYY-MM-DD') }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={this.onChangeDay}
+            <Calendar
+              onChangeDay={(date) => this.onChangeDay(date)}
+              onChangeMonth={this.onChangeMonth}
             />
 
             {isAuthenticated && (
@@ -94,7 +84,7 @@ class RoomScedule extends React.Component {
                     shrink: true,
                   }}
                   inputProps={{ min: "10:00", max: "17:00", step: "1" }}
-                  onChange={this.onChange}
+                  onChange={this.onChangeTime}
                 />
                 <TextField
                   id="time"
@@ -107,13 +97,18 @@ class RoomScedule extends React.Component {
                     shrink: true,
                   }}
                   inputProps={{ min: moment(`${date}T${start}:00`).add(1, 'hours').format('HH:00'), max: "18:00", step: "1" }}
-                  onChange={this.onChange}
+                  onChange={this.onChangeTime}
                 />
               </Wrapper>)
             }
           </div>
 
-          <EditBar date={date} start={start} end={end} isAuthenticated={isAuthenticated} />
+          <EditBar
+            date={date}
+            start={start}
+            end={end}
+            isAuthenticated={isAuthenticated}
+          />
 
           <Typography variant='h4' align='center'>Scedule for {date}</Typography>
 

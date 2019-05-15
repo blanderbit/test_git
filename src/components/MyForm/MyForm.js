@@ -3,6 +3,7 @@
 import { Paper, TextField, withStyles, Button } from '@material-ui/core';
 
 import Page from '../../layouts/Page/Page';
+import './MyForm.scss'
 
 const styles = () => ({
   login: {
@@ -30,11 +31,22 @@ class MyForm extends React.Component {
   state = {
     email: '',
     password: '',
+    isVaild: true
   }
 
   handleChange = name => event => {
+    this.checkValid()
     this.setState({ [name]: event.target.value });
   };
+
+  checkValid = () => {
+    const { email } = this.state;
+    const regExp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    console.log(regExp.test(email));
+    this.setState({
+      isVaild: regExp.test(email)
+    })
+  }
 
   handleSubmit = event => {
     event.preventDefault();
@@ -48,7 +60,7 @@ class MyForm extends React.Component {
 
   render() {
     const { classes, formType } = this.props;
-    const { email, password } = this.state;
+    const { email, password, isVaild } = this.state;
     // const userId = localStorage.getItem("userId");
 
     return (
@@ -57,6 +69,7 @@ class MyForm extends React.Component {
           <Paper >
             <form onSubmit={this.handleSubmit} className={classes.form}>
               <TextField
+                error={!isVaild}
                 className={classes.margin}
                 name='email'
                 placeholder='Email'
@@ -78,7 +91,7 @@ class MyForm extends React.Component {
                 color='secondary'
                 type='submit'
                 className={classes.button}
-                disabled={!(email && password)}
+                disabled={!(email && password && isVaild)}
               >
                 {formType}
               </Button>

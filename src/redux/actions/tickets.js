@@ -23,10 +23,11 @@ export const postTicket = (hall) => {
     } else {
       axios
         .post(url, hall, config)
-        .then(res => {
+        .then(() => {
           dispatch(getTickets());
         })
         .catch(err => {
+          console.log(err)
           dispatch(getTicketsFail(err.message));
         });
     }
@@ -56,16 +57,16 @@ export const putTicket = (hall, ticketId) => {
 };
 
 export const getTickets = () => {
-  const date = sessionStorage.getItem("date") || moment().format('YYYY-MM-DD')
-  const from = new Date(`${date}T10:00`).getTime();
-  const to = new Date(`${date}T18:00`).getTime();
-  console.log(from);
+  // const date = sessionStorage.getItem("date") || moment().format('YYYY-MM-DD');
+  // const from = new Date().getTime();
+  // const to = new Date().getTime();
 
   return dispatch => {
     dispatch(getTicketsInit());
     axios
       // .get(`${url}`)
-      .get(`${url}params/${from}/${to}`)
+      .get(`${url}`)
+      // .get(`${url}params/${from}/${to}`)
       .then(res => {
         const tickets = res.data;
         dispatch(getTicketsSuccess(tickets));

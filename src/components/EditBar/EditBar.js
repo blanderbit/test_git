@@ -28,7 +28,15 @@ class EditBar extends React.Component {
   }
 
   onChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
+    const { newDate } = this.state;
+
+    if (name === "newStart") {
+      this.setState({
+        newEnd: moment(`${newDate}T${value}:00`).add(1, 'hours').format('HH:00')
+      })
+    }
+
     this.setState({
       [name]: value
     })
