@@ -27,8 +27,8 @@ class Calendar extends React.Component {
     const { currentMonth } = this.state;
     const { onChangeMonth } = this.props;
 
+    sessionStorage.setItem("currentMonth", moment(currentMonth).clone().add(1, 'month'))
     onChangeMonth();
-    sessionStorage.setItem("currentMonth", currentMonth.add(1, 'month'))
 
     this.setState({
       currentMonth: currentMonth.add(1, 'month')
@@ -39,8 +39,8 @@ class Calendar extends React.Component {
     const { currentMonth } = this.state;
     const { onChangeMonth } = this.props;
 
+    sessionStorage.setItem("currentMonth", moment(currentMonth).clone().subtract(1, 'month'))
     onChangeMonth();
-    sessionStorage.setItem("currentMonth", currentMonth.subtract(1, 'month'))
 
     this.setState({
       currentMonth: currentMonth.subtract(1, 'month')
@@ -56,7 +56,9 @@ class Calendar extends React.Component {
         <Button onClick={this.prevMonth}>
           <ChevronLeft />
         </Button>
+
         <span>{moment(currentMonth).format(dateFormat)}</span>
+
         <Button onClick={this.nextMonth}>
           <ChevronRight />
         </Button>
@@ -81,7 +83,10 @@ class Calendar extends React.Component {
   }
 
   renderCells() {
-    const { currentMonth, selectedDate } = this.state;
+    const {
+      currentMonth,
+      selectedDate
+    } = this.state;
     const monthStart = currentMonth.clone().startOf('month');
     const monthEnd = currentMonth.clone().endOf('month');
     const startDate = monthStart.clone().startOf('isoWeek');
@@ -111,6 +116,7 @@ class Calendar extends React.Component {
             onClick={() => this.onDateClick(currentDay)}
           >
             <Typography>{formattedDate}</Typography>
+
             <Preview currentDay={currentDay} />
           </div>
         );

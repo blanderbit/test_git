@@ -1,7 +1,5 @@
 ﻿import * as actionTypes from './actionTypes'
 import axios from "axios";
-import moment from 'moment';
-// import moment from 'moment';
 
 const url = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/tickets';
 const putUrl = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/ticket';
@@ -58,8 +56,14 @@ export const putTicket = (hall, ticketId) => {
 
 export const getTickets = () => {
   // const date = sessionStorage.getItem("date") || moment().format('YYYY-MM-DD');
-  // const from = new Date().getTime();
-  // const to = new Date().getTime();
+  // const currentMomth = sessionStorage.getItem("currentMonth")
+  // console.log(moment(currentMomth).format('YYYY-MM'))
+
+  // const from = new Date(moment(currentMomth).clone().format('YYYY-MM')).getTime();
+  // const to = new Date(moment(currentMomth).clone().add(1, 'month').format('YYYY-MM')).getTime();
+
+  // console.log(from);
+  // console.log(to);
 
   return dispatch => {
     dispatch(getTicketsInit());
@@ -70,7 +74,6 @@ export const getTickets = () => {
       .then(res => {
         const tickets = res.data;
         dispatch(getTicketsSuccess(tickets));
-        console.log(tickets);
       })
       .catch(err => {
         dispatch(getTicketsFail(err.message));

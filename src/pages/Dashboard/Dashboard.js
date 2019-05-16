@@ -28,8 +28,6 @@ class Dashboard extends React.Component {
     this.props.onLoad();
   }
 
-
-
   render() {
     let { halls, err, isLoading } = this.props;
 

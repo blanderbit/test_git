@@ -15,8 +15,6 @@ class Preview extends Component {
       return ticket.hall_id === currentHallId
     })
 
-
-
     return (
       <div className="preview">
         {new Array(8).fill(null).map((el, idx) => {

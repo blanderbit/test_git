@@ -15,13 +15,16 @@ const styles = theme => ({
   },
   margin: {
     margin: theme.spacing.unit,
+  },
+  marginBottom: {
+    marginBottom: 20
   }
 });
 
 
 class EditBar extends React.Component {
   state = {
-    newDate: sessionStorage.getItem("newDate") || moment().format('YYYY-MM-DD'),
+    newDate: moment().format('YYYY-MM-DD'),
     newStart: '10:00',
     newEnd: '11:00',
     open: false,
@@ -45,6 +48,10 @@ class EditBar extends React.Component {
 
   handleOpen = () => {
     this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
   };
 
   onAdd = e => {
@@ -198,7 +205,7 @@ class EditBar extends React.Component {
               type="time"
               name='newEnd'
               value={newEnd}
-              className={classes.textField}
+              className={`${classes.textField} ${classes.marginBottom}`}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -206,7 +213,9 @@ class EditBar extends React.Component {
               onChange={this.onChange}
             />
 
-            <Button onClick={this.onCorrect} variant='contained' color='secondary'>Confirm</Button>
+            <Button onClick={this.onCorrect} variant='contained' color='primary' className={classes.marginBottom}>Confirm</Button>
+
+            <Button onClick={this.handleClose} variant='contained' color='secondary'>Cancel</Button>
           </div>
         </Dialog>
       </div>

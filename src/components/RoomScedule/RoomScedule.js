@@ -1,6 +1,5 @@
 ﻿import React from 'react';
 import moment from 'moment';
-// import { connect } from "react-redux";
 import { withStyles, TextField, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
@@ -9,7 +8,6 @@ import DayScedule from '../DayScedule/DayScedule';
 import Wrapper from '../../layouts/Wrapper';
 import EditBar from '../EditBar/EditBar';
 import Calendar from '../MyCalendar/MyCalendar';
-// import { getTickets } from '../../redux/actions/tickets';
 
 const styles = theme => ({
   container: {
@@ -58,7 +56,6 @@ class RoomScedule extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
     const { date, start, end } = this.state;
     const isAuthenticated = !!localStorage.getItem('token');
 
@@ -79,7 +76,7 @@ class RoomScedule extends React.Component {
                   type="time"
                   name="start"
                   value={start}
-                  className={classes.textField}
+                  className='textfield'
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -92,7 +89,7 @@ class RoomScedule extends React.Component {
                   type="time"
                   name='end'
                   value={end}
-                  className={classes.textField}
+                  className='textfield'
                   InputLabelProps={{
                     shrink: true,
                   }}

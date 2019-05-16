@@ -73,7 +73,6 @@ class Header extends React.Component {
       )
     }
 
-
     return (
       <div className="header">
         <NavLink exact to='/'><Typography variant="h1">BOOKING-TEST</Typography></NavLink>
