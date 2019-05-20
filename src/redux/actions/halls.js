@@ -1,7 +1,7 @@
 ﻿import * as actionTypes from './actionTypes'
 import axios from "axios";
 
-const url = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/halls';
+const url = 'http://ec2-35-175-143-145.compute-1.amazonaws.com:4000/halls';
 
 const config = {
   headers: {

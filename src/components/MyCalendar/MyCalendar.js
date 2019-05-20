@@ -16,7 +16,6 @@ class Calendar extends React.Component {
 
   onDateClick = day => {
     const { onChangeDay } = this.props;
-
     this.setState({
       selectedDate: day
     });
@@ -25,11 +24,6 @@ class Calendar extends React.Component {
 
   nextMonth = () => {
     const { currentMonth } = this.state;
-    const { onChangeMonth } = this.props;
-
-    sessionStorage.setItem("currentMonth", moment(currentMonth).clone().add(1, 'month'))
-    onChangeMonth();
-
     this.setState({
       currentMonth: currentMonth.add(1, 'month')
     });
@@ -37,11 +31,6 @@ class Calendar extends React.Component {
 
   prevMonth = () => {
     const { currentMonth } = this.state;
-    const { onChangeMonth } = this.props;
-
-    sessionStorage.setItem("currentMonth", moment(currentMonth).clone().subtract(1, 'month'))
-    onChangeMonth();
-
     this.setState({
       currentMonth: currentMonth.subtract(1, 'month')
     });

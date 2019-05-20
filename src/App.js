@@ -11,10 +11,10 @@ import SignUp from './pages/SignUp/SignUp';
 function App() {
   let routes = (
     <Switch>
+      <Route exact path="/" component={Dashboard} />
       <Route path="/sign-up" component={SignUp} />
       <Route path="/sign-in" component={Login} />
       <Route path="/room1" component={Room1} />
-      <Route exact path="/" component={Dashboard} />
     </Switch>
   )
   return (

@@ -24,7 +24,7 @@ const styles = theme => ({
 
 class EditBar extends React.Component {
   state = {
-    newDate: moment().format('YYYY-MM-DD'),
+    newDate: this.props.date,
     newStart: '10:00',
     newEnd: '11:00',
     open: false,
@@ -42,16 +42,26 @@ class EditBar extends React.Component {
 
     this.setState({
       [name]: value
-    })
-    sessionStorage.setItem([name], value)
+    });
+    console.log(this.state);
+    console.log(this.props)
+
+    sessionStorage.setItem([name], value);
   }
 
   handleOpen = () => {
-    this.setState({ open: true });
+    this.setState({
+      newDate: this.props.date,
+      newStart: '10:00',
+      newEnd: '11:00',
+      open: true
+    });
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({      
+      open: false
+    });
   };
 
   onAdd = e => {
@@ -92,7 +102,6 @@ class EditBar extends React.Component {
 
   onDelete = e => {
     e.preventDefault();
-
     const { tickets, deleteTicket, date, start } = this.props;
     let ticketId = null;
 

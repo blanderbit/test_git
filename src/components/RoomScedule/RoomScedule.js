@@ -22,7 +22,7 @@ const styles = theme => ({
 
 class RoomScedule extends React.Component {
   state = {
-    date: sessionStorage.getItem("date") || moment().format('YYYY-MM-DD'),
+    date: moment().format('YYYY-MM-DD'),
     start: '10:00',
     end: '11:00',
     open: false,
@@ -47,12 +47,8 @@ class RoomScedule extends React.Component {
   onChangeDay = (date) => {
     this.setState({
       date
-    })
-  }
-
-  onChangeMonth = () => {
-    // const { getTickets } = this.props;
-    // getTickets();
+    });
+    console.log(this.state)
   }
 
   render() {
@@ -65,7 +61,6 @@ class RoomScedule extends React.Component {
           <div className="picker-container">
             <Calendar
               onChangeDay={(date) => this.onChangeDay(date)}
-              onChangeMonth={this.onChangeMonth}
             />
 
             {isAuthenticated && (

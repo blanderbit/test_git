@@ -1,16 +1,17 @@
 ﻿import * as actionTypes from './actionTypes'
 import axios from "axios";
 
+const url = 'http://ec2-35-175-143-145.compute-1.amazonaws.com:4000';
+
 export const signUp = (email, password) => {
   return dispatch => {
     const user = {
       email,
       password,
     };
-    const url = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/signUp';
 
     axios
-      .post(url, user)
+      .post(`${url}/signUp`, user)
       .then(res => {
         const { id, email } = res.data;
 
@@ -25,10 +26,8 @@ export const signUp = (email, password) => {
 
 export const signIn = (user) => {
   return dispatch => {
-    const url = 'http://ec2-3-84-16-108.compute-1.amazonaws.com:4000/signIn';
-
     axios
-      .post(url, user)
+      .post(`${url}/signIn`, user)
       .then(res => {
         const { token, _id } = res.data;
 

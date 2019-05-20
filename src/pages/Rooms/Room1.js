@@ -14,7 +14,7 @@ const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 4,
     margin: 20
   },
 
@@ -22,7 +22,9 @@ const styles = theme => ({
     width: '100%',
     maxWidth: 360,
     height: 260,
-    borderRadius: 10
+    borderRadius: 10,
+    marginTop: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 2,
   },
 });
 
@@ -50,7 +52,7 @@ class Room1 extends React.Component {
   render() {
     const {
       classes,
-      halls,
+      hall,
       hallsErr,
       tickets,
       ticketsErr,
@@ -58,19 +60,17 @@ class Room1 extends React.Component {
       ticketsLoading,
       getTickets
     } = this.props;
-    const currentRoom = + localStorage.getItem("currentRoom") || 0;
 
     if (hallsLoading || ticketsLoading) {
       return (
         <Page>
-          <Spinner></Spinner>
+          <Spinner />
         </Page>
       )
     }
 
     if (hallsErr || ticketsErr) {
       const err = hallsErr || ticketsErr;
-
       return (
         <Page>
           <Dialog
@@ -85,23 +85,22 @@ class Room1 extends React.Component {
 
     return (
       <Page>
-        {halls.length !== 0 && <Paper className={classes.root} elevation={1}>
-          <Typography variant="h3" component="h3">
-            {halls[currentRoom].title}
+        {hall && <Paper className={classes.root} elevation={1}>
+          <Typography variant="title" component="h3">
+            {hall.title}
           </Typography>
 
           <Avatar
-            alt={halls[currentRoom].title}
-            src={halls[currentRoom].imageURL}
+            alt={hall.title}
+            src={hall.imageURL}
             className={classes.bigAvatar}
           />
 
-          <Typography variant='title'>
-            {halls[currentRoom].description}
+          <Typography variant='subtitle1'>
+            {hall.description}
           </Typography>
 
           <RoomScedule tickets={tickets} getTickets={getTickets} />
-
         </Paper>}
       </Page>
     );
@@ -109,13 +108,14 @@ class Room1 extends React.Component {
 }
 
 const mapStateToProps = state => {
+  const hallId = localStorage.getItem("currentHallId");
   return {
-    halls: state.halls.halls,
     hallsErr: state.halls.err,
     tickets: state.tickets.tickets,
     ticketsErr: state.tickets.err,
     hallsLoading: state.halls.isLoading,
     ticketsLoading: state.tickets.isLoading,
+    hall: state.halls.halls.find(hall => hall._id === hallId)
   };
 };
 
@@ -128,7 +128,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 Room1.propTypes = {
-  halls: PropTypes.array.isRequired,
+  hall: PropTypes.object,
   hallsErr: PropTypes.string,
   ticketsErr: PropTypes.string,
   hallsLoading: PropTypes.bool.isRequired,

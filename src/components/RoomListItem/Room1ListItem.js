@@ -14,9 +14,7 @@ class Room1ListItem extends React.Component {
 
   clickHandler = () => {
     const { roomNumber, hallId } = this.props;
-
     localStorage.setItem("currentRoom", roomNumber);
-
     localStorage.setItem("currentHallId", hallId);
   }
 
@@ -26,7 +24,10 @@ class Room1ListItem extends React.Component {
     return (
       <div className="room-listitem">
         <Card className='card'>
-          <CardActionArea>
+          <CardActionArea
+            onClick={this.clickHandler}
+            href='/room1'
+          >
             <CardMedia
               className='media'
               image={imageURL}
@@ -37,22 +38,12 @@ class Room1ListItem extends React.Component {
               <Typography gutterBottom variant="h5" component="h2">
                 {title}
               </Typography>
+
               <Typography component="p">
                 {description}
               </Typography>
             </CardContent>
           </CardActionArea>
-
-          <CardActions>
-            <Button
-              size="small"
-              onClick={this.clickHandler}
-              color="secondary"
-              href='/room1'
-            >
-              Learn More
-            </Button>
-          </CardActions>
 
         </Card>
       </div>
