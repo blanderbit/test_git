@@ -58,7 +58,7 @@ class Dashboard extends React.Component {
           {
             halls.map((hall, idx) => {
               return (
-                <Room1ListItem hall={hall} key={idx} roomNumber={idx} hallId={hall._id} />
+                <Room1ListItem hall={hall} key={hall._id} roomNumber={idx} />
               )
             })
           }
@@ -67,6 +67,7 @@ class Dashboard extends React.Component {
     )
   }
 }
+
 
 const mapStateToProps = state => {
   return {

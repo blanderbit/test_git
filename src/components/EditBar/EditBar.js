@@ -18,6 +18,12 @@ const styles = theme => ({
   },
   marginBottom: {
     marginBottom: 20
+  },
+  container: {
+    color: 'red'
+  },
+  textField: {
+    color: 'red'
   }
 });
 
@@ -43,8 +49,6 @@ class EditBar extends React.Component {
     this.setState({
       [name]: value
     });
-    console.log(this.state);
-    console.log(this.props)
 
     sessionStorage.setItem([name], value);
   }
@@ -59,7 +63,7 @@ class EditBar extends React.Component {
   };
 
   handleClose = () => {
-    this.setState({      
+    this.setState({
       open: false
     });
   };
@@ -70,6 +74,7 @@ class EditBar extends React.Component {
 
     this.props.postTicket({
       hall_id: localStorage.getItem("currentHallId"),
+
       user_id: localStorage.getItem("userId"),
       from: new Date(date + 'T' + start).getTime() + 1,
       to: new Date(date + 'T' + end).getTime() - 1,
@@ -79,7 +84,6 @@ class EditBar extends React.Component {
 
   onCorrect = e => {
     e.preventDefault();
-
     const { tickets, correctTicket, date, start } = this.props;
     const { newDate, newStart, newEnd } = this.state;
     let ticketId = null;
@@ -115,13 +119,14 @@ class EditBar extends React.Component {
   }
 
   render() {
-    const { classes, tickets, isAuthenticated, date, start } = this.props;
+    const { classes, tickets, isAuthenticated, date, start, hallId } = this.props;
     const { newDate, newStart, newEnd, open } = this.state;
+    console.log(this.props)
 
-    const currentHallId = localStorage.getItem("currentHallId");
+    // const currentHallId = localStorage.getItem("currentHallId");
     const userId = localStorage.getItem("userId");
     const isActive = tickets.some(ticket => {
-      if (currentHallId === ticket.hall_id && userId === ticket.user_id) {
+      if (hallId === ticket.hall_id && userId === ticket.user_id) {
         return moment(`${date}T${start}:05`).isBetween(ticket.from, ticket.to, 'milliseconds')
       }
     });

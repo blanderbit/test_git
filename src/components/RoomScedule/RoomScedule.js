@@ -54,6 +54,7 @@ class RoomScedule extends React.Component {
   render() {
     const { date, start, end } = this.state;
     const isAuthenticated = !!localStorage.getItem('token');
+    console.log(this.props)
 
     return (
       <div>
@@ -100,6 +101,7 @@ class RoomScedule extends React.Component {
             start={start}
             end={end}
             isAuthenticated={isAuthenticated}
+            {...this.props}
           />
 
           <Typography variant='h4' align='center'>Scedule for {date}</Typography>
@@ -114,7 +116,6 @@ class RoomScedule extends React.Component {
 
 RoomScedule.propTypes = {
   classes: PropTypes.object.isRequired,
-  getTickets: PropTypes.func.isRequired
 }
 
 export default (withStyles(styles)(RoomScedule));

@@ -68,7 +68,6 @@ export const getTickets = () => {
   return dispatch => {
     dispatch(getTicketsInit());
     axios
-      // .get(`${url}`)
       .get(`${url}`)
       // .get(`${url}params/${from}/${to}`)
       .then(res => {

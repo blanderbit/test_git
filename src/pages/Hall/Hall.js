@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import Page from '../../layouts/Page/Page';
 import Spinner from '../../components/Spinner/Spinner';
 import RoomScedule from '../../components/RoomScedule/RoomScedule';
-import { loadHalls } from '../../redux/actions/halls';
 import { getTickets, confirmErr } from '../../redux/actions/tickets';
 
 
@@ -28,7 +27,7 @@ const styles = theme => ({
   },
 });
 
-class Room1 extends React.Component {
+class Hall extends React.Component {
 
   state = {
     open: true,
@@ -45,8 +44,8 @@ class Room1 extends React.Component {
   };
 
   componentDidMount() {
-    this.props.onLoad();
     this.props.getTickets();
+    console.log(this.props.halls)
   }
 
   render() {
@@ -58,7 +57,6 @@ class Room1 extends React.Component {
       ticketsErr,
       hallsLoading,
       ticketsLoading,
-      getTickets
     } = this.props;
 
     if (hallsLoading || ticketsLoading) {
@@ -100,41 +98,40 @@ class Room1 extends React.Component {
             {hall.description}
           </Typography>
 
-          <RoomScedule tickets={tickets} getTickets={getTickets} />
+          <RoomScedule tickets={tickets} hallId={hall._id} />
         </Paper>}
       </Page>
     );
   }
 }
 
-const mapStateToProps = state => {
-  const hallId = localStorage.getItem("currentHallId");
+const mapStateToProps = (state, ownProps) => {
+  const hallId = ownProps.match.params.hall_id;
+
   return {
     hallsErr: state.halls.err,
     tickets: state.tickets.tickets,
     ticketsErr: state.tickets.err,
     hallsLoading: state.halls.isLoading,
     ticketsLoading: state.tickets.isLoading,
-    hall: state.halls.halls.find(hall => hall._id === hallId)
+    hall: state.halls.halls.find(hall => hall._id === hallId),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLoad: () => dispatch(loadHalls()),
     getTickets: () => dispatch(getTickets()),
     confirmErr: () => dispatch(confirmErr())
   };
 };
 
-Room1.propTypes = {
+Hall.propTypes = {
   hall: PropTypes.object,
   hallsErr: PropTypes.string,
   ticketsErr: PropTypes.string,
   hallsLoading: PropTypes.bool.isRequired,
   ticketsLoading: PropTypes.bool.isRequired,
 
-  onLoad: PropTypes.func.isRequired,
   getTickets: PropTypes.func.isRequired,
   confirmErr: PropTypes.func.isRequired,
 }
@@ -142,5 +139,5 @@ Room1.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Room1));
+)(withStyles(styles)(Hall));
 

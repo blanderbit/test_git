@@ -1,19 +1,18 @@
 ﻿import * as actionTypes from "../actions/actionTypes";
 
-const initialState = {
+export const initialState = {
   halls: [],
   err: null,
   isLoading: false
 }
 
 const reducer = (state = initialState, action) => {
-
   switch (action.type) {
 
     case actionTypes.LOAD_HALLS_INIT:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
 
     case actionTypes.LOAD_HALLS_SUCCES:

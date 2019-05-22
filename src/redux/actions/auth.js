@@ -19,6 +19,7 @@ export const signUp = (email, password) => {
         dispatch(signUpSuccess(id, email));
       })
       .catch(err => {
+        console.log(err.response)
         dispatch(authFail(err.message));
       });
   };

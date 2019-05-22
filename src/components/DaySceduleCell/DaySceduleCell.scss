@@ -10,6 +10,7 @@
         justify-content: center;
         border: 1px solid; 
         padding: 10px;
+        background-color: #aaa;
     }
 
     .mark{
@@ -18,11 +19,21 @@
         justify-content: center;
         flex: 1;
         border: 1px solid; 
-        padding: 10px;
+        min-height: 50px;
+        cursor: pointer;
+        transition: ease-in 0.2s;
+
+        &:hover{
+            background-color: #aaf;
+        }
     }
 
-    .active {
-        background-color: #aaa;
+    .booked {
+        background-color: #faa;
+    }
+
+    .free {
+        background-color: #afa;
     }
 }
 
